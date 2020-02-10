@@ -1,11 +1,12 @@
 import React from "react";
-import { Search } from "./components/search.component";
+import { Photo } from "./components/photo.component";
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <Search></Search>
+      <h1>Chou Family Tree and Photos</h1>
+      <Photo></Photo>
     </div>
   );
 }

@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<Search /> expect to render Search component 1`] = `ShallowWrapper {}`;
-
-exports[`expect to render Search component 1`] = `ShallowWrapper {}`;
