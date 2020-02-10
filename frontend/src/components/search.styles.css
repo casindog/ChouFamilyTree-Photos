@@ -1,0 +1,20 @@
+#searchBar {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+#searchBar > div {
+    padding: 10px
+}
+
+#firstRow {
+    margin: 10px;
+}
+
+.personRow {
+    display: grid;
+    grid-template-columns: 200px 200px 350px;
+    justify-content: center;
+    margin: 10px;
+}
