@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <h1>Chou Family Tree and Photos</h1>
-      <Photo></Photo>
+      <Photo/>
     </div>
   );
 }
