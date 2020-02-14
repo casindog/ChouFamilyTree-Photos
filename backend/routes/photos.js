@@ -29,7 +29,11 @@ router.post('/', (req, res) => {
                 if (err) return res.status(500).send(err)
             })        
 
-            res.json({name: filename, path: `/uploads/${filename}`})
+            res.json({
+                name: filename, 
+                path: `/uploads/${filename}`,
+                persons: []
+            })
         })
         .catch(err => {
             console.log(err)
@@ -52,18 +56,6 @@ router.patch('/:photoId', (req, res) => {
                 })
         }
     })
-    console.log(photo)
-    console.log(photo.persons)
-    // console.log(req.body.test_chou)
-    // photo.persons.push('test')
-
-    // photo.save()
-    //     .then(() => {
-    //         res.json({msg: 'LOKTAR'})
-    //     })
-    //     .catch(err => {
-    //         res.json({msg: 'failed'})
-    //     })
 
 })
 

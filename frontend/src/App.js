@@ -1,12 +1,19 @@
 import React, {useReducer, useEffect, createContext} from "react";
 import Photo from "./components/photo.component";
+import File from "./components/file.component";
+import Tag from "./components/tag.component";
+import Album from './components/album.component'
+import './App.styles.css'
 import axios from "axios";
 
 export const RootContext = createContext()
 
 const initialState = { 
   file: null,
-  photo: null,
+  photo: {
+    path: null,
+    persons: []
+  },
   album: [],
   tree: {}
 }
@@ -39,14 +46,19 @@ function App() {
 
   // get Family Tree
   useEffect(()=> {
-    axios.get('/tree')
+    console.log('loktar!')
+    axios.get('/trees')
       .then(res => console.log(res.body))
   },[])
 
   return (
-    <RootContext.Provider value={{state, dispatch}}>
-      <h1>Chou Family Tree and Photos</h1>
+
+    <RootContext.Provider id='root' value={{state, dispatch}}>
+      <File/>
       <Photo/>
+      <Tag/>
+      <Album/>
+
     </RootContext.Provider>
 
   );

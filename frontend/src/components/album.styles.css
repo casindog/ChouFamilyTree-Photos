@@ -1,0 +1,17 @@
+#album {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 25px;
+    object-fit: cover;
+}
+
+#album > img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+#album > img:hover {
+    transition: transform .75s;
+    transform: scale(1.4);
+}
