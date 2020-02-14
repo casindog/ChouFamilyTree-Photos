@@ -1,5 +1,6 @@
-import React, {useReducer, createContext} from "react";
+import React, {useReducer, useEffect, createContext} from "react";
 import Photo from "./components/photo.component";
+import axios from "axios";
 
 export const RootContext = createContext()
 
@@ -35,6 +36,12 @@ const reducer = (state,action) => {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  // get Family Tree
+  useEffect(()=> {
+    axios.get('/tree')
+      .then(res => console.log(res.body))
+  },[])
 
   return (
     <RootContext.Provider value={{state, dispatch}}>

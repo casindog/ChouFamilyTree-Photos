@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Person = require('../models/Person')
+const Tree = require('../models/Tree')
 
 router.get('/', (req,res) => {
-    Person.find()
-        .then(persons => res.json(persons));
+    Tree.find()
+        .then(trees => res.json(trees));
 
 })
 
