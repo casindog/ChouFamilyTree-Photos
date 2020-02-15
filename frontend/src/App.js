@@ -2,6 +2,7 @@ import React, {useReducer, useEffect, createContext} from "react";
 import Photo from "./components/photo.component";
 import File from "./components/file.component";
 import Tag from "./components/tag.component";
+import Tree from './components/tree.component'
 import Album from './components/album.component'
 import './App.styles.css'
 import axios from "axios";
@@ -35,7 +36,6 @@ const reducer = (state,action) => {
               ... state,
               photo: action.payload
           }
-
       default:
           return state
   }
@@ -52,15 +52,13 @@ function App() {
   },[])
 
   return (
-
     <RootContext.Provider id='root' value={{state, dispatch}}>
       <File/>
       <Photo/>
       <Tag/>
+      <Tree />
       <Album/>
-
     </RootContext.Provider>
-
   );
 }
 
