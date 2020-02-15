@@ -16,7 +16,60 @@ const initialState = {
     persons: []
   },
   album: [],
-  tree: {}
+  tree: {
+    name: 'GGF',
+    children: [
+        {
+            name: '1stSon',
+            children: []
+        },
+        {
+            name: '2ndSon',
+            children: []
+        },
+        {
+            name: '3rdSon',
+            children: []
+        },
+        {
+            name: '4thSon',
+            children: [
+                {
+                    name: 'Mary',
+                    children: []
+                },
+                {
+                    name: 'Louis',
+                    children: []
+                },
+                {
+                    name: 'Danny',
+                    children: []
+                },
+                {
+                    name: 'Michael',
+                    children: []
+                },
+            ]
+        },
+        {
+            name: '5thSon',
+            children: []
+        },
+        {
+            name: '6thSon',
+            children: []
+        },
+        {
+            name: '1stDaughter',
+            children: []
+        },
+        {
+            name: '7thSon',
+            children: []
+        }
+    ]
+  }
 }
 
 const reducer = (state,action) => {
