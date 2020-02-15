@@ -1,45 +1,70 @@
 import React, {useState, useEffect, useRef, useContext} from 'react'
 import { RootContext } from '../App'
-import { select } from 'd3'
+import { select, hierarchy, tree, linkVertical } from 'd3'
 import axios from 'axios'
 
-const data = [5,10,15,20,25,30]
+// const useResizeObserver = ref => {
+//     const [dimensions, setDimensions] = useState(null);
+//     useEffect(() => {
+//         const observeTarget = ref.current
+//         const resizeObserver = new resizeObserver(entries => {
+            
+//         }) 
+
+//         resizeObserver.observe(observeTarget)
+//         return () => {
+//             resizeObserver.unobserve(observeTarget)
+//         };
+//     },[ref])
+//     return dimensions
+// }
 
 
 const Tree = () => {
     const svgRef = useRef()
+
     const {state, dispatch} = useContext(RootContext)
+
 
     useEffect(() => {
         const svg = select(svgRef.current)
+        const root = hierarchy(state.tree)
+        const treeLayout = tree().size([500, 500])
+        treeLayout(root)
 
-        svg
-            .selectAll('circle')
-            .data(data)
-            .join(
-                enter => enter
-                    .append('circle')
-                    .attr('r', d => d)
-                    .attr('cx', d => d*2)
-                    .attr('cy', d => d *2),
-                update => update.attr('class', 'updated'),
-                exit => exit.remove()
-            )
-        
+        console.log(root.descendants())
+        console.log(root.links())
 
-        // const root = hierarchy(state.tree)
-        // // const treeLayout = tree().size([dimensions.width, dimensions.height])
-        // // treeLayout(root)
-        // console.log(root)
-        // // svg.selectAll('circle').data(data)
-    }, [])
+        const linkGenerator = linkVertical()
+            .x(node => node.x)
+            .y(node => node.y)
+
+        //links
+        svg.selectAll('path')
+            .data(root.links())
+            .join('path')
+            .attr('class', 'links')
+            .attr('d', linkGenerator)
+            .attr('fill','none')
+            .attr('stroke', 'black')
+
+        //nodes
+        svg.selectAll('.node')
+            .data(root.descendants())
+            .join('circle') 
+            .attr('class', 'node')
+            .attr('r', 5)
+            .attr('fill', 'black')
+            .attr('cx', d => d.x)
+            .attr('cy', d => d.y)
+            
+    }, [state.tree])
 
     return (
         <>
             Name:
             <input type='text' />
             <svg ref={svgRef}>
-                <circle></circle>
             </svg>
         </>
     )

@@ -99,7 +99,6 @@ function App() {
 
   // get Family Tree
   useEffect(()=> {
-    console.log('loktar!')
     axios.get('/trees')
       .then(res => console.log(res.body))
   },[])
