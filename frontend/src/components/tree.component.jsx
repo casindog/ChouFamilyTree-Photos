@@ -1,43 +1,36 @@
 import React, {useState, useEffect, useRef, useContext} from 'react'
 import { RootContext } from '../App'
-import { select, hierarchy, tree, linkVertical } from 'd3'
+import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
 import axios from 'axios'
-
-// const useResizeObserver = ref => {
-//     const [dimensions, setDimensions] = useState(null);
-//     useEffect(() => {
-//         const observeTarget = ref.current
-//         const resizeObserver = new resizeObserver(entries => {
-            
-//         }) 
-
-//         resizeObserver.observe(observeTarget)
-//         return () => {
-//             resizeObserver.unobserve(observeTarget)
-//         };
-//     },[ref])
-//     return dimensions
-// }
-
 
 const Tree = () => {
     const svgRef = useRef()
-
     const {state, dispatch} = useContext(RootContext)
 
-
     useEffect(() => {
+        const height = 500, width = 500
+        
         const svg = select(svgRef.current)
-        const root = hierarchy(state.tree)
-        const treeLayout = tree().size([600, 600])
-        treeLayout(root)
 
+        svg
+            .attr('width', width)
+            .attr('height', height)
+
+        let scale = scaleLinear()
+            .domain([0,height])
+            .range([25,475])
+
+        const root = hierarchy(state.tree)
+        const treeLayout = tree().size([width, height])
+        treeLayout(root)
+        
+        console.log(root)
         console.log(root.descendants())
         console.log(root.links())
 
         const linkGenerator = linkVertical()
-            .x(node => node.x)
-            .y(node => node.y)
+            .x(node => scale(node.x))
+            .y(node => scale(node.y))
 
         //links
         svg.selectAll('link')
@@ -53,10 +46,9 @@ const Tree = () => {
             .data(root.descendants())
             .join('circle') 
             .attr('class', 'node')
-            .attr('r', 5)
+            .attr('r', 7.5)
             .attr('fill', 'black')
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y)
+            .attr('transform', d => `translate(${scale(d.x)}, ${scale(d.y)})`)
 
         // labels
         svg.selectAll('.labels')
@@ -66,8 +58,8 @@ const Tree = () => {
             .text(node => node.data.name)
             .attr('text-anchor', 'middle')
             .attr('font-size', 12)
-            .attr('x', node => node.x)
-            .attr('y', node => node.y+20)
+            .attr('x', node => scale(node.x))
+            .attr('y', node => scale(node.y)+20)
             
     }, [state.tree])
 
@@ -75,7 +67,7 @@ const Tree = () => {
         <>
             Name:
             <input type='text' />
-            <svg ref={svgRef}>
+            <svg ref={svgRef} >
             </svg>
         </>
     )
