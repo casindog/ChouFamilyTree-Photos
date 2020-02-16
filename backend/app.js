@@ -23,6 +23,8 @@ app.listen(port, () => console.log(`Server is running on port ${port}`));
 
 const trees = require("./routes/trees");
 const photos = require('./routes/photos')
+const chous = require('./routes/chous')
 
 app.use('/trees', trees);
 app.use('/photos', photos)
+app.use('/chous', chous)

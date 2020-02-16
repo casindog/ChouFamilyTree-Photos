@@ -7,6 +7,15 @@ const Tree = () => {
     const svgRef = useRef()
     const {state, dispatch} = useContext(RootContext)
 
+    // get Family Tree
+    useEffect(()=> {
+        axios.get('/trees')
+            .then(res => dispatch(
+                {type: 'SET_TREE', payload: res.data}
+            ))
+
+    }, [])
+    
     useEffect(() => {
         const height = 500, width = 500
         
@@ -49,6 +58,14 @@ const Tree = () => {
             .attr('r', 7.5)
             .attr('fill', 'black')
             .attr('transform', d => `translate(${scale(d.x)}, ${scale(d.y)})`)
+            .on('click', (val, idx) => {
+                console.log(val)
+                console.log(idx)
+                // render a modal
+                axios.post()
+                // send an axios request to edit the person information. ie) add a child, or change a name
+                // dispatch action to update Tree from axios return
+            })
 
         // labels
         svg.selectAll('.labels')
