@@ -17,11 +17,15 @@ const Tree = () => {
     }, [])
 
     // D3 code
-    let height = 500, width = 500
+    let height = 250, width = 800
 
-    let scale = scaleLinear()
+    let xScale = scaleLinear()
+        .domain([0,width])
+        .range([25,width-25])
+
+    let yScale = scaleLinear()
         .domain([0,height])
-        .range([25,475])
+        .range([25,height-25])
 
 
     useEffect(() => {
@@ -35,8 +39,8 @@ const Tree = () => {
         // console.log(root.links())
 
         const linkGenerator = linkVertical()
-            .x(node => scale(node.x))
-            .y(node => scale(node.y))
+            .x(node => xScale(node.x))
+            .y(node => yScale(node.y))
 
         //links
         svg.selectAll('.link')
@@ -54,7 +58,7 @@ const Tree = () => {
             .attr('class', 'node')
             .attr('r', 7.5)
             .attr('fill', 'black')
-            .attr('transform', d => `translate(${scale(d.x)}, ${scale(d.y)})`)
+            .attr('transform', d => `translate(${xScale(d.x)}, ${yScale(d.y)})`)
             .on('click', (node, idx) => {
                 // console.log(node)
                 // console.log(idx)
@@ -75,7 +79,7 @@ const Tree = () => {
             .attr('class', 'label')
             .attr('font-size', 12)
             .attr('text-anchor', 'middle')
-            .attr('transform', d => `translate(${scale(d.x)},${scale(d.y)+20})`)    
+            .attr('transform', d => `translate(${xScale(d.x)},${yScale(d.y+25)})`)    
             
     }, [state.tree])
 

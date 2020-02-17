@@ -29,8 +29,12 @@ function Modal() {
                         dispatch({type: 'TOGGLE_MODAL', payload: null})
                     })
 
-            })
-        
+            })   
+    }
+
+    const handleDelete = e => {
+        e.preventDefault()
+        // axios.delete('')
     }
 
     return ReactDOM.createPortal (
@@ -51,6 +55,7 @@ function Modal() {
                 <button type="submit">Submit</button>
             </form>
 
+            <button onClick={handleDelete}>Delete</button>
             <button onClick={null}>Close</button>
 
         </div>,
