@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+#photo-section {
+  display: flex;
+}
+
 svg {
   background-color: beige;
   /* width: 600px; */

@@ -17,7 +17,7 @@ const Tree = () => {
     }, [])
 
     // D3 code
-    let height = 250, width = 800
+    let height = 250, width = 1000
 
     let xScale = scaleLinear()
         .domain([0,width])

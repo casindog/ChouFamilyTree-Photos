@@ -23,7 +23,6 @@ const File = () => {
 
     return (
         <div>
-            <h1>Chou Family Tree and Photos</h1>
             <h3>Upload a Photo</h3>
             <input type='file' onChange={handleFile}></input>
             <button onClick={uploadFile}>Upload</button>

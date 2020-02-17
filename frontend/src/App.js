@@ -73,11 +73,15 @@ function App() {
   return (
     <RootContext.Provider id='root' value={{state, dispatch}}>
         { state.modal ? <Modal/> : null }
+        <h2>Chou Family Tree and Photos</h2>
         <File/>
-        <Photo/>
+
+        <div id='photo-section'>
+          <Photo/>
+          <Album/>
+        </div>
         <Tag/>
         <Tree />
-        <Album/>
     </RootContext.Provider>
   );
 }

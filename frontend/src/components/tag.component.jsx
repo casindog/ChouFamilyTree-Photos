@@ -7,12 +7,15 @@ const Tag = () => {
     const createTags = () => {
         return (
             <div>
-                {state.photo.persons.map(tag => (<div> {tag.name} </div> )
-                )}
+                { state.photo.persons.map(tag => (<div> {tag.name} </div> )) }
             </div>
         )
     }
 
+    const handleChange = e => {
+
+    }
+    
     const tagPersonToPhoto = e => {
         let arr = state.photo.persons
         // arr.push()
@@ -37,7 +40,7 @@ const Tag = () => {
     return (
         <div>
             Tags: {createTags()}
-            <input type='text' onChange={null}></input>
+            <input type='text' onChange={handleChange}></input>
             <button onClick={tagPersonToPhoto}> Tag Person </button>
         </div>
     )
