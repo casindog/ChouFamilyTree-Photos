@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useContext} from 'react'
+import React, {useRef, useEffect, useContext} from 'react'
 import { RootContext } from '../App'
 import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
 import axios from 'axios'
@@ -11,26 +11,21 @@ const Tree = () => {
     useEffect(()=> {
         axios.get('/trees')
             .then(res => {
-                console.log(res)   
                 // should only be one tree
                 dispatch({type: 'SET_TREE', payload: res.data[0]})
-                
             })
-
     }, [])
-    
+
+    // D3 code
+    let height = 500, width = 500
+
+    let scale = scaleLinear()
+        .domain([0,height])
+        .range([25,475])
+
+
     useEffect(() => {
-        const height = 500, width = 500
         const svg = select(svgRef.current)
-
-        svg
-            .attr('width', width)
-            .attr('height', height)
-
-        let scale = scaleLinear()
-            .domain([0,height])
-            .range([25,475])
-
         const root = hierarchy(state.tree)
         const treeLayout = tree().size([width, height])
         treeLayout(root)
@@ -44,7 +39,7 @@ const Tree = () => {
             .y(node => scale(node.y))
 
         //links
-        svg.selectAll('link')
+        svg.selectAll('.link')
             .data(root.links())
             .join('path')
             .attr('class', 'link')
@@ -63,7 +58,6 @@ const Tree = () => {
             .on('click', (node, idx) => {
                 // console.log(node)
                 // console.log(idx)
-                // render a modal
                 dispatch({
                     type: 'TOGGLE_MODAL', 
                     payload: {
@@ -71,31 +65,22 @@ const Tree = () => {
                         parentName: node.data.name
                     }
                 })
-
-                // send an axios request to edit the person information. ie) add a child, or change a name
-                // dispatch action to update Tree from axios return
             })
 
-        // labels
-        svg.selectAll('.labels')
+        //labels
+        svg.selectAll('.label')
             .data(root.descendants())
             .join('text')
+            .text(d => d.data.name)
             .attr('class', 'label')
-            .text(node => node.data.name)
-            .attr('text-anchor', 'middle')
             .attr('font-size', 12)
-            .attr('x', node => scale(node.x))
-            .attr('y', node => scale(node.y)+20)
+            .attr('text-anchor', 'middle')
+            .attr('transform', d => `translate(${scale(d.x)},${scale(d.y)+20})`)    
             
     }, [state.tree])
 
     return (
-        <>
-            Name:
-            <input type='text' />
-            <svg ref={svgRef} >
-            </svg>
-        </>
+        <svg ref={svgRef} width={width} height={height}></svg>
     )
 }
 

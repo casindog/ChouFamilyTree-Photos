@@ -1,0 +1,11 @@
+#root {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+svg {
+  background-color: beige;
+  /* width: 600px; */
+  /* height: 600px; */
+}

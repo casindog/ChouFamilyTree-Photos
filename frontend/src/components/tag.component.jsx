@@ -3,7 +3,7 @@ import axios from 'axios'
 import { RootContext } from '../App'
 
 const Tag = () => {
-    const {state, dispatch} = useContext(RootContext)
+    const {state} = useContext(RootContext)
     const createTags = () => {
         return (
             <div>
@@ -24,7 +24,7 @@ const Tag = () => {
             persons: arr // from the event target, which might be saved
         }
 
-        let name = {'test': 'chouA'}
+        // let name = {'test': 'chouA'}
         let testid = '5e424127486c82850be92468'
 
         axios.patch(`./photos/${testid}`, data)
