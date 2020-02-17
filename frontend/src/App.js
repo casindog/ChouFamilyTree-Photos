@@ -17,60 +17,14 @@ const initialState = {
     persons: []
   },
   album: [],
+  parent: null,
   tree: {
-    name: 'GGF',
-    children: [
-        {
-            name: '1stSon',
-            children: []
-        },
-        {
-            name: '2ndSon',
-            children: []
-        },
-        {
-            name: '3rdSon',
-            children: []
-        },
-        {
-            name: '4thSon',
-            children: [
-                {
-                    name: 'Mary',
-                    children: []
-                },
-                {
-                    name: 'Louis',
-                    children: []
-                },
-                {
-                    name: 'Danny',
-                    children: []
-                },
-                {
-                    name: 'Michael',
-                    children: []
-                },
-            ]
-        },
-        {
-            name: '5thSon',
-            children: []
-        },
-        {
-            name: '6thSon',
-            children: []
-        },
-        {
-            name: '1stDaughter',
-            children: []
-        },
-        {
-            name: '7thSon',
-            children: []
-        }
-    ]
-  }
+    treeId: null,
+    personId: null,
+    name: '',
+    children: []
+  },
+  modal: false
 }
 
 const reducer = (state,action) => {
@@ -95,6 +49,12 @@ const reducer = (state,action) => {
                 ... state,
                 tree: action.payload
             }
+        case 'TOGGLE_MODAL':
+            return {
+                ... state,
+                modal: !state.modal,
+                parent: !state.modal ? action.payload : null
+            }
       default:
           return state
   }
@@ -103,9 +63,10 @@ const reducer = (state,action) => {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
 
+
   return (
     <RootContext.Provider id='root' value={{state, dispatch}}>
-        <Modal/>
+        { state.modal ? <Modal/> : null }
         <File/>
         <Photo/>
         <Tag/>

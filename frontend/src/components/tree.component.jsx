@@ -10,15 +10,17 @@ const Tree = () => {
     // get Family Tree
     useEffect(()=> {
         axios.get('/trees')
-            .then(res => dispatch(
-                {type: 'SET_TREE', payload: res.data}
-            ))
+            .then(res => {
+                console.log(res)   
+                // should only be one tree
+                dispatch({type: 'SET_TREE', payload: res.data[0]})
+                
+            })
 
     }, [])
     
     useEffect(() => {
         const height = 500, width = 500
-        
         const svg = select(svgRef.current)
 
         svg
@@ -33,9 +35,9 @@ const Tree = () => {
         const treeLayout = tree().size([width, height])
         treeLayout(root)
         
-        console.log(root)
-        console.log(root.descendants())
-        console.log(root.links())
+        // console.log(root)
+        // console.log(root.descendants())
+        // console.log(root.links())
 
         const linkGenerator = linkVertical()
             .x(node => scale(node.x))
@@ -58,11 +60,18 @@ const Tree = () => {
             .attr('r', 7.5)
             .attr('fill', 'black')
             .attr('transform', d => `translate(${scale(d.x)}, ${scale(d.y)})`)
-            .on('click', (val, idx) => {
-                console.log(val)
-                console.log(idx)
+            .on('click', (node, idx) => {
+                // console.log(node)
+                // console.log(idx)
                 // render a modal
-                axios.post()
+                dispatch({
+                    type: 'TOGGLE_MODAL', 
+                    payload: {
+                        parentId: node.data.personId,
+                        parentName: node.data.name
+                    }
+                })
+
                 // send an axios request to edit the person information. ie) add a child, or change a name
                 // dispatch action to update Tree from axios return
             })

@@ -3,44 +3,49 @@ import ReactDOM from 'react-dom'
 import axios from 'axios'
 import { RootContext } from '../App.js';
 
-function Modal () {
+function Modal() {
     const {state, dispatch} = useContext(RootContext) 
 
     const [name, setName] = useState('')
     const [info, setInfo] = useState('')
-    const [child, setChild] = useState('')
 
     const handleSubmit = e => {
         e.preventDefault()
-        let data = {
+        let chouData = {
             name,
-            info,
-            child
+            info
         }
-        axios.post('./chous', data)
-            .then(res => dispatch({type: 'SET_TREE', payload: res.data}))
 
-        console.log(state.tree)
+        axios.post('./chous', chouData)
+            .then(res => {
+                console.log(res.data)
+                let treeData = {
+                    parentId: state.parent.parentId,
+                    child: res.data.data
+                }
+                axios.patch(`./trees/${state.tree._id}`, treeData)
+                    .then(res => {
+                        dispatch({type: 'SET_TREE', payload: res.data})
+                        dispatch({type: 'TOGGLE_MODAL', payload: null})
+                    })
+
+            })
+        
     }
 
     return ReactDOM.createPortal (
         <div>
-            Update Information:
+            Add Child to Parent: {state.parent.parentName}
 
             <form onSubmit={handleSubmit}>
                 <label>
-                    Name
+                    Child Name
                     <input type='text' value={name} onChange={e => setName(e.target.value)} />
                 </label>
 
                 <label>
-                    Description
+                    Child Description
                     <textarea type='text' value={info} onChange={e => setInfo(e.target.value)} />
-                </label>
-
-                <label>
-                    Add Child
-                    <input type='text' value={child} onChange={e => setChild(e.target.value)}/>
                 </label>
                 
                 <button type="submit">Submit</button>

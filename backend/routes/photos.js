@@ -43,9 +43,8 @@ router.post('/', (req, res) => {
 
 router.patch('/:photoId', (req, res) => {
     let photoId = req.params.photoId
-    console.log(photoId)
     // var query = { campaign_id: new ObjectId(campaign._id) };
-    let photo = Photo.findById(photoId, (err, photo) => {
+    Photo.findById(photoId, (err, photo) => {
         if (!photo) { 
             res.status(404).send("photo not found");
         } else {
