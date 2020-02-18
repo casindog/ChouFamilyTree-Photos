@@ -69,8 +69,6 @@ function App() {
   // const updateDimensions = () => {
   //   setX(window.innerWidth)
   //   setY(window.innerHeight)
-  //   console.log(window.innerWidth, window.innerHeight)
-  //   console.log(x, y)
   // }
 
   // useEffect(() => {

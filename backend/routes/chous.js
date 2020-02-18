@@ -14,7 +14,6 @@ router.post('/', (req,res) => {
             res.send({data: newChou})
         })
         .catch(err => {
-            console.log(err)
             return res.status(500).send(err)
         })
 })

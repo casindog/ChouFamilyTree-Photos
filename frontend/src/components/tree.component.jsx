@@ -65,8 +65,6 @@ const Tree = () => {
             .attr('stroke', 'black')
             .attr('transform', d => `translate(${xScale(d.x)}, ${yScale(d.y)})`)
             .on('click', (node, idx) => {
-                console.log(node)
-                // console.log(idx)
                 dispatch({
                     type: 'TOGGLE_MODAL', 
                     payload: {

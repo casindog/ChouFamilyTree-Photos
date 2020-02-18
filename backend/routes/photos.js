@@ -36,36 +36,47 @@ router.post('/', (req, res) => {
             })
         })
         .catch(err => {
-            console.log(err)
             return res.status(500).send(err)
         })
 }) 
 
 router.patch('/:photoId', (req, res) => {
     let photoId = req.params.photoId
-    // var query = { campaign_id: new ObjectId(campaign._id) };
+
     Photo.findById(photoId, (err, photo) => {
         if (!photo) { 
             res.status(404).send("photo not found");
         } else {
-            let set = new Set(), newArr = []
-            photo.persons.forEach(person => set.add(person.personId))
-            req.body.data.forEach(person => {
-                if (!set.has(person.personId)) {
-                    newArr.push(person)
-                }
-                set.add(person.personId)
-            })
+            // we need another conditional block depending on type of patch request add or remove
+            if (!req.body.type) {
+                // req is to add one
+                let set = new Set(), newArr = []
+                photo.persons.forEach(person => set.add(person.personId))
+                req.body.data.forEach(person => {
+                    if (!set.has(person.personId)) {
+                        newArr.push(person)
+                    }
+                    set.add(person.personId)
+                })
 
-            photo.persons = photo.persons.concat(newArr)
+                photo.persons = photo.persons.concat(newArr)
+            } else {
+                // req is to del one
+                let deleteId = req.body.personId
+                for (let i=0; i<photo.persons.length; i++) {
+                    if (photo.persons[i].personId === deleteId) {
+                        photo.persons.splice(i,1)
+                    }
+                }
+            }
 
             photo.save()
                 .then(() => {
                     res.json({tags: photo.persons})
                 })
+            
         }
     })
-
 })
 
 module.exports = router;

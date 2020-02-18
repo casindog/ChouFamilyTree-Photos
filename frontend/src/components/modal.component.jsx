@@ -18,7 +18,6 @@ function Modal() {
 
         axios.post('./chous', chouData)
             .then(res => {
-                console.log(res.data)
                 let treeData = {
                     parentId: state.parent.parentId,
                     child: res.data.data

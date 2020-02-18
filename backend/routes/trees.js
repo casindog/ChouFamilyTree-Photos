@@ -18,9 +18,6 @@ router.post('/', (req, res) => {
 })
 
 router.patch('/:id', (req, res) => {
-    // console.log(`treeId: ${req.params.id}`)
-    // console.log(`parentId: ${req.body.parentId}`)
-    // console.log(`childData: ${req.body.child}`)
     Tree.findById(req.params.id, (err, tree) => {
         if (!tree) {
             res.status(404).send("tree not found");
@@ -37,7 +34,6 @@ router.patch('/:id', (req, res) => {
 
     function dfs(tree, id) {
         if (tree.personId === id) {
-            // console.log('found parent, push child into array')
             let child = {
                 personId: req.body.child._id,
                 name: req.body.child.name,
@@ -55,8 +51,6 @@ router.patch('/:id', (req, res) => {
 })
 
 router.delete('/:treeId', (req, res) => {
-    // console.log(req.params)
-    // console.log(req.body)
     let deleteId = req.body.personId
 
     Tree.findById(req.params.treeId, (err, tree) => {
