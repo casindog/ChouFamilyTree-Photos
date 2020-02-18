@@ -48,7 +48,17 @@ router.patch('/:photoId', (req, res) => {
         if (!photo) { 
             res.status(404).send("photo not found");
         } else {
-            photo.persons.push(req.body.test)
+            let set = new Set(), newArr = []
+            photo.persons.forEach(person => set.add(person.personId))
+            req.body.data.forEach(person => {
+                if (!set.has(person.personId)) {
+                    newArr.push(person)
+                }
+                set.add(person.personId)
+            })
+
+            photo.persons = photo.persons.concat(newArr)
+
             photo.save()
                 .then(() => {
                     res.json({tags: photo.persons})

@@ -12,7 +12,7 @@ const Album = () => {
 
         // eventually, i want to pass in a selected person from
         // the store to filter the album w/ photos tagged w/ selected person
-    },[])
+    }, [])
 
     const createImages = () => {
         return (

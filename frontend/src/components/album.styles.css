@@ -1,8 +1,8 @@
 #album {
-    display: grid;
-    grid-template-columns: auto auto auto auto;
-    grid-gap: 25px;
+    display: flex;
+    flex-direction: column;
     object-fit: cover;
+    margin-left: 20px;
 }
 
 #album > img {

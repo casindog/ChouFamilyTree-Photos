@@ -30,6 +30,9 @@ const Tree = () => {
 
     useEffect(() => {
         const svg = select(svgRef.current)
+
+        dispatch({type: 'SET_SVGREF', payload: svg})
+
         const root = hierarchy(state.tree)
         const treeLayout = tree().size([width, height])
         treeLayout(root)
@@ -56,11 +59,13 @@ const Tree = () => {
             .data(root.descendants())
             .join('circle') 
             .attr('class', 'node')
-            .attr('r', 7.5)
+            .attr('r', 6)
             .attr('fill', 'black')
+            .attr('stroke-width',1)
+            .attr('stroke', 'black')
             .attr('transform', d => `translate(${xScale(d.x)}, ${yScale(d.y)})`)
             .on('click', (node, idx) => {
-                // console.log(node)
+                console.log(node)
                 // console.log(idx)
                 dispatch({
                     type: 'TOGGLE_MODAL', 

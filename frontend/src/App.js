@@ -13,6 +13,7 @@ export const RootContext = createContext()
 const initialState = { 
   file: null,
   photo: {
+    _id: null,
     path: null,
     persons: []
   },
@@ -24,31 +25,37 @@ const initialState = {
     name: '',
     children: []
   },
+  svgRef: null,
   modal: false
 }
 
 const reducer = (state,action) => {
   switch (action.type) {
       case 'FETCH_ALBUM':
-          return { ...state, album: action.payload };
+        return { ...state, album: action.payload };
       case 'SET_FILE':
-          return { ...state, file: action.payload };
+        return { ...state, file: action.payload };
       case 'SET_PHOTO':
-          return {
-              ...state,
-              photo: action.payload
-          }
-        case 'SET_TREE':
-            return {
-                ...state,
-                tree: action.payload
-            }
-        case 'TOGGLE_MODAL':
-            return {
-                ...state,
-                modal: !state.modal,
-                parent: !state.modal ? action.payload : null
-            }
+        return {
+          ...state,
+          photo: action.payload
+        }
+      case 'SET_TREE':
+        return {
+          ...state,
+          tree: action.payload
+        }
+      case 'TOGGLE_MODAL':
+        return {
+          ...state,
+          modal: !state.modal,
+          parent: !state.modal ? action.payload : null
+        }
+      case 'SET_SVGREF':
+        return {
+          ...state,
+          svgRef: action.payload
+        }
       default:
           return state
   }
@@ -80,6 +87,7 @@ function App() {
           <Photo/>
           <Album/>
         </div>
+        
         <Tag/>
         <Tree />
     </RootContext.Provider>
