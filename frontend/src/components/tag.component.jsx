@@ -32,6 +32,22 @@ const Tag = () => {
                 })
 
         }
+
+        function dfs(node, arr) {
+            let res = []
+
+            for (let c of node.children) {
+                res = res.concat(dfs(c, arr))
+            }
+
+            res = res.map(ele => [node.personId].concat(ele))
+
+            if (arr.includes(node.personId)) {
+                res.push(node.personId)
+            }
+
+            return res
+        }
         setTagUpload(newArr)
 
     },[tag])
@@ -46,7 +62,6 @@ const Tag = () => {
             // this would mean 1) GGF can have red lines to him, but he will not be in the photo, so his node is black
             // 2) generation gaps, grandchildren can link up to the GGF. the generation in between will still be black (not in photo)
 
-            // let temp = state.photo.persons.map(person => person.name)
             let relationships = dfs(state.tree, arr) 
 
             // return an array with all of target -> source relationship

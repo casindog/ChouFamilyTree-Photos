@@ -29,11 +29,12 @@ router.post('/', (req, res) => {
                 if (err) return res.status(500).send(err)
             })        
 
-            res.json({
-                name: filename, 
-                path: `/uploads/${filename}`,
-                persons: []
-            })
+            // res.json({
+            //     name: filename, 
+            //     path: `/uploads/${filename}`,
+            //     persons: []
+            // })
+            res.json(newPhoto)
         })
         .catch(err => {
             return res.status(500).send(err)
