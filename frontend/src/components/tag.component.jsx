@@ -1,21 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react'
 import axios from 'axios'
 import { RootContext } from '../App'
+import './tag.styles.css'
 
 const Tag = () => {
     const {state, dispatch} = useContext(RootContext)
 
     const [tag, setTag] = useState('')
     const [tagUpload, setTagUpload] = useState([])
-
-
-    const createTags = () => {
-        return (
-            <div>
-                { state.photo.persons.map(tag => <div> {tag.name} </div> ) }
-            </div>
-        )
-    }
 
     function dfs(node,name) {
         let arr = []
@@ -52,6 +44,7 @@ const Tag = () => {
                     if (d.data.name.toLowerCase().includes(tag.toLowerCase())
                         && tag.length) {
                         
+                        console.log(d.data.name.toLowerCase())
                         console.log(d.data)
                         arr.push({ personId: d.data.personId, name: d.data.name })
                         return 'blue'
@@ -83,8 +76,9 @@ const Tag = () => {
     }
 
     return (
-        <div>
-            Tags: {createTags()}
+        <div id="tag">
+            Tags: { state.photo.persons.map(tag => <div key={tag.personId} className='tag'> {tag.name} </div> )
+}
             <input type='text' onChange={e => setTag(e.target.value)}></input>
             <button onClick={tagPersonToPhoto}> Tag Person </button>
         </div>

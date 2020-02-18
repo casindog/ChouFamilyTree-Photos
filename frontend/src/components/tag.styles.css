@@ -1,0 +1,11 @@
+#tag {
+    width: 500px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#tag .tag {
+    display:flex;
+    justify-content: space-around;
+    margin-right: 10px;
+}
