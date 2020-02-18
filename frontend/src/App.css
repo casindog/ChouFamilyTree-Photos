@@ -6,10 +6,16 @@
 
 #photo-section {
   display: flex;
+  height: 500px;
 }
 
 svg {
   background-color: beige;
   /* width: 600px; */
   /* height: 600px; */
+}
+
+#project-title {
+  font-size: 25px;
+  margin: 5px;
 }

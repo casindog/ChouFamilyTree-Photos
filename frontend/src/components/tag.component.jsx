@@ -9,19 +9,19 @@ const Tag = () => {
     const [tag, setTag] = useState('')
     const [tagUpload, setTagUpload] = useState([])
 
-    function dfs(node,name) {
-        let arr = []
-        // console.log(node.name, name)
-        if (node.name.toLowerCase().includes(name)) {
-            arr.push(node.name)
-            return arr
-        }
-        for (let c of node.children) {
-            arr = arr.concat(dfs(c,name))
-        }
+    // function dfs(node,name) {
+    //     let arr = []
+    //     // console.log(node.name, name)
+    //     if (node.name.toLowerCase().includes(name)) {
+    //         arr.push(node.name)
+    //         return arr
+    //     }
+    //     for (let c of node.children) {
+    //         arr = arr.concat(dfs(c,name))
+    //     }
 
-        return arr
-    }
+    //     return arr
+    // }
 
     useEffect(() => {
         let arr = []

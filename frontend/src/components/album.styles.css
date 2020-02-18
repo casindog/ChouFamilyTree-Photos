@@ -1,17 +1,18 @@
 #album {
-    display: flex;
-    flex-direction: column;
-    object-fit: cover;
+    display: grid;
     margin-left: 20px;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(5, 100px);
+    grid-gap: 10px;
 }
 
 #album > img {
-    width: 150px;
-    height: 150px;
     object-fit: cover;
+    height: 100%;
+    width: 100%
 }
 
 #album > img:hover {
     transition: transform .75s;
-    transform: scale(1.25);
+    transform: scale(1.2);
 }

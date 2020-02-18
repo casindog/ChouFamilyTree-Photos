@@ -1,6 +1,7 @@
 import React, {useContext} from 'react'
 import axios from 'axios';
 import { RootContext } from '../App.js';
+import './file.styles.css'
 
 // file upload resource
 // https://codeburst.io/image-uploading-using-react-and-node-to-get-the-images-up-c46ec11a7129
@@ -18,12 +19,19 @@ const File = () => {
         fd.append('file', state.file);
 
         axios.post('./photos', fd)
-            .then(res => { dispatch({type: 'SET_PHOTO', payload: res.data}) })
+            .then(res => { 
+                console.log(res.data)
+                let data = state.album
+                dispatch({type: 'SET_PHOTO', payload: res.data}) 
+                // dispatch({type: 'FETCH_ALBUM', payload: res.data})
+                axios.get('/photos')
+                    .then(res => { dispatch({type: 'FETCH_ALBUM', payload: res.data}) })
+            })
     }   
 
     return (
-        <div>
-            <h4>Upload a Photo</h4>
+        <div id='file'>
+            Upload a Photo
             <input type='file' onChange={handleFile}></input>
             <button onClick={uploadFile}>Upload</button>
         </div>

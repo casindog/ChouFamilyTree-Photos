@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useReducer, createContext} from "react";
+import React, { useReducer, createContext } from "react";
 import Photo from "./components/photo.component";
 import File from "./components/file.component";
 import Tag from "./components/tag.component";
@@ -63,24 +63,24 @@ const reducer = (state,action) => {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const [x, setX] = useState(window.innerWidth)
-  const [y, setY] = useState(window.innerHeight)
+  // const [x, setX] = useState(window.innerWidth)
+  // const [y, setY] = useState(window.innerHeight)
 
-  const updateDimensions = () => {
-    setX(window.innerWidth)
-    setY(window.innerHeight)
-    console.log(window.innerWidth, window.innerHeight)
-    console.log(x, y)
-  }
+  // const updateDimensions = () => {
+  //   setX(window.innerWidth)
+  //   setY(window.innerHeight)
+  //   console.log(window.innerWidth, window.innerHeight)
+  //   console.log(x, y)
+  // }
 
-  useEffect(() => {
-    window.addEventListener('resize', updateDimensions)
-  }, [])
+  // useEffect(() => {
+  //   window.addEventListener('resize', updateDimensions)
+  // }, [])
 
   return (
     <RootContext.Provider id='root' value={{state, dispatch}}>
         { state.modal ? <Modal/> : null }
-        <h2>Chou Family Tree and Photos</h2>
+        <div id='project-title'>Chou Family Tree and Photos</div>
         <File/>
 
         <div id='photo-section'>
