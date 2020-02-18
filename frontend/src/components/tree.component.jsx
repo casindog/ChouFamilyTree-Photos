@@ -17,7 +17,7 @@ const Tree = () => {
     }, [])
 
     // D3 code
-    let height = 250, width = 1000
+    let height = 300, width = 1000
 
     let xScale = scaleLinear()
         .domain([0,width])
@@ -59,7 +59,7 @@ const Tree = () => {
             .data(root.descendants())
             .join('circle') 
             .attr('class', 'node')
-            .attr('r', 6)
+            .attr('r', 7)
             .attr('fill', 'black')
             .attr('stroke-width',1)
             .attr('stroke', 'black')
@@ -84,7 +84,7 @@ const Tree = () => {
             .attr('class', 'label')
             .attr('font-size', 12)
             .attr('text-anchor', 'middle')
-            .attr('transform', d => `translate(${xScale(d.x)},${yScale(d.y+25)})`)    
+            .attr('transform', d => `translate(${xScale(d.x+35)},${yScale(d.y+5)})`)    
             
     }, [state.tree])
 

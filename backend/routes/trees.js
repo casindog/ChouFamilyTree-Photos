@@ -18,17 +18,15 @@ router.post('/', (req, res) => {
 })
 
 router.patch('/:id', (req, res) => {
-    console.log(`treeId: ${req.params.id}`)
-    console.log(`parentId: ${req.body.parentId}`)
-    console.log(`childData: ${req.body.child}`)
-
+    // console.log(`treeId: ${req.params.id}`)
+    // console.log(`parentId: ${req.body.parentId}`)
+    // console.log(`childData: ${req.body.child}`)
     Tree.findById(req.params.id, (err, tree) => {
         if (!tree) {
             res.status(404).send("tree not found");
         } else {
-
-            dfs(tree,req.body.parentId)
-
+            dfs(tree, req.body.parentId, req)
+            
             // markModified saved my life.
             tree.markModified('children')
             tree.save()
@@ -39,26 +37,53 @@ router.patch('/:id', (req, res) => {
 
     function dfs(tree, id) {
         if (tree.personId === id) {
-            console.log('found parent, push child into array')
-       
+            // console.log('found parent, push child into array')
             let child = {
                 personId: req.body.child._id,
                 name: req.body.child.name,
                 children: []
             }
-
+    
             tree.children.push(child)
-
             return
         }
     
         for (let c of tree.children) {
             dfs(c, id)
         }
-
-        return tree
     }
 })
+
+router.delete('/:treeId', (req, res) => {
+    // console.log(req.params)
+    // console.log(req.body)
+    let deleteId = req.body.personId
+
+    Tree.findById(req.params.treeId, (err, tree) => {
+        if (!tree) {
+            res.status(404).send("tree not found");
+        } else {
+            dfs(tree)
+
+            // markModified saved my life.
+            tree.markModified('children')
+            tree.save()
+                .then(() => res.send(tree))
+                .catch(err => res.status('404').send(err))
+        }
+    })
+
+    function dfs(node) {
+        for (let i=0; i<node.children.length; i++) {
+            if (node.children[i].personId===deleteId) {
+                node.children.splice(i,1)
+                return
+            }
+            dfs(node.children[i])
+        }
+    }
+})
+
 
 
 

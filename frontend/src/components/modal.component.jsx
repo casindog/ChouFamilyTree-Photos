@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
 import { RootContext } from '../App.js';
-
+import './modal.styles.css'
 function Modal() {
     const {state, dispatch} = useContext(RootContext) 
 
@@ -34,29 +34,26 @@ function Modal() {
 
     const handleDelete = e => {
         e.preventDefault()
-        // axios.delete('')
+        let data = {
+            personId: state.parent.parentId
+        }
+        axios.delete(`./trees/${state.tree._id}`, {data})
+            .then(res => dispatch({type: 'SET_TREE', payload: res.data }))
     }
 
     return ReactDOM.createPortal (
-        <div>
-            Add Child to Parent: {state.parent.parentName}
+        <div id='modal'>
+            <div>Add child to {state.parent.parentName}</div>
 
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Child Name
-                    <input type='text' value={name} onChange={e => setName(e.target.value)} />
-                </label>
+            Child name
+            <input type='text' value={name} onChange={e => setName(e.target.value)} />
 
-                <label>
-                    Child Description
-                    <textarea type='text' value={info} onChange={e => setInfo(e.target.value)} />
-                </label>
-                
-                <button type="submit">Submit</button>
-            </form>
-
-            <button onClick={handleDelete}>Delete</button>
-            <button onClick={null}>Close</button>
+            Child description
+            <textarea type='text' value={info} onChange={e => setInfo(e.target.value)} />
+            
+            <button onClick={handleSubmit}>Add child</button>
+            <button onClick={handleDelete}>Delete me</button>
+            <button onClick={() => dispatch({type: 'TOGGLE_MODAL', payload: null})}>Close</button>
 
         </div>,
 

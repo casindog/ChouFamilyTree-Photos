@@ -48,8 +48,8 @@ const reducer = (state,action) => {
       case 'TOGGLE_MODAL':
         return {
           ...state,
-          modal: !state.modal,
-          parent: !state.modal ? action.payload : null
+          modal: !!action.payload,
+          parent: action.payload
         }
       case 'SET_SVGREF':
         return {
