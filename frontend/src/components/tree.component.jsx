@@ -27,7 +27,7 @@ const Tree = () => {
     }, [])
 
     // D3 code
-    let height = 300, width = 1000
+    let height = 300, width = 1200
 
     let xScale = scaleLinear()
         .domain([0,width])
@@ -92,7 +92,7 @@ const Tree = () => {
             .attr('class', 'label')
             .attr('font-size', 12)
             .attr('text-anchor', 'middle')
-            .attr('transform', d => `translate(${xScale(d.x+35)},${yScale(d.y+5)})`)    
+            .attr('transform', d => `translate(${xScale(d.x+50)},${yScale(d.y+5)})`)    
             
     }, [state.tree])
 

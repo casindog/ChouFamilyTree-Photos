@@ -103,8 +103,8 @@ const Tag = () => {
 
             return res
         }
-
-    }, [...Object.values(state.photo.persons)])
+// has funny quirks
+    }, [state.photo.persons])
 
     const tagPersonToPhoto = e => {
         if (state.photo._id) {
