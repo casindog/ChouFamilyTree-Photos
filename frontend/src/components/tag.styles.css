@@ -1,12 +1,34 @@
-#tag {
-    width: 500px;
+#tag-wrapper {
+    display:grid;
+    grid-template-columns: repeat(8, 50px);
+    grid-template-rows: repeat(1, 25px);
+    grid-gap: 10px;
+}
+
+.tag {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    color: #385898;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: lightblue;
+    border-radius: 25px;
+    text-align: center;
+}
+
+#add-tag {
     display: flex;
-    justify-content: space-around;
+
     margin: 10px;
 }
 
-#tag .tag {
-    display:flex;
-    justify-content: space-around;
-    margin-right: 10px;
+#add-tag input {
+    width: 150px;
+
+}
+
+#add-tag button {
+    height: 25px;
 }

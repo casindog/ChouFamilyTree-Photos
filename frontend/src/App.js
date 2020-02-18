@@ -88,7 +88,6 @@ function App() {
           <Album/>
         </div>
         
-        <Tag/>
         <Tree />
     </RootContext.Provider>
   );

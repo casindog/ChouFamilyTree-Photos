@@ -1,4 +1,9 @@
 #photo {
+    display: flex;
+    flex-direction: column ;
+}
+
+#photo img {
     width: 500px;
     height: 500px;
     object-fit: cover;

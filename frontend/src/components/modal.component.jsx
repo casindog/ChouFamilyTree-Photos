@@ -38,7 +38,10 @@ function Modal() {
             personId: state.parent.parentId
         }
         axios.delete(`./trees/${state.tree._id}`, {data})
-            .then(res => dispatch({type: 'SET_TREE', payload: res.data }))
+            .then(res => {
+                dispatch({type: 'SET_TREE', payload: res.data })
+                dispatch({type: 'TOGGLE_MODAL', payload: null})
+            })
     }
 
     return ReactDOM.createPortal (

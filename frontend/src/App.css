@@ -6,7 +6,7 @@
 
 #photo-section {
   display: flex;
-  height: 500px;
+  flex-direction: row;
 }
 
 svg {

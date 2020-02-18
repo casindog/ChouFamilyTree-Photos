@@ -1,12 +1,18 @@
 import React, {useContext} from 'react'
 import './photo.styles.css'
 import { RootContext } from '../App.js';
+import Tag from './tag.component'
+import './tag.component'
 
 const Photo = () => {
     const {state} = useContext(RootContext) 
 
     return (
-        <img id="photo" alt='main-img' src={state.photo.path}/>
+        <div id='photo'>
+            <img alt='main-img' src={state.photo.path}/>
+            <Tag/>
+
+        </div>
     )
 }
 

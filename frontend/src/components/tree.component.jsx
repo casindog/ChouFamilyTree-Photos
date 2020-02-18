@@ -88,8 +88,12 @@ const Tree = () => {
             
     }, [state.tree])
 
+    let style = {
+        margin: '10px'
+    }
+    
     return (
-        <svg ref={svgRef} width={width} height={height}></svg>
+        <svg ref={svgRef} style={style} width={width} height={height}></svg>
     )
 }
 

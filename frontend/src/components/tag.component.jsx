@@ -43,9 +43,7 @@ const Tag = () => {
                 .style('fill', d => {
                     if (d.data.name.toLowerCase().includes(tag.toLowerCase())
                         && tag.length) {
-                        
-                        console.log(d.data.name.toLowerCase())
-                        console.log(d.data)
+                    
                         arr.push({ personId: d.data.personId, name: d.data.name })
                         return 'blue'
                     }
@@ -76,12 +74,16 @@ const Tag = () => {
     }
 
     return (
-        <div id="tag">
-            Tags: { state.photo.persons.map(tag => <div key={tag.personId} className='tag'> {tag.name} </div> )
-}
-            <input type='text' onChange={e => setTag(e.target.value)}></input>
-            <button onClick={tagPersonToPhoto}> Tag Person </button>
-        </div>
+        <>
+            <div id='tag-wrapper'>
+                { state.photo.persons.map(tag => <div key={tag.personId} className='tag'> {tag.name} </div> )}
+            </div>
+            <div id='add-tag'>
+                <input type='text' onChange={e => setTag(e.target.value)}></input>
+                <button onClick={tagPersonToPhoto}> Add Tag </button>
+            </div>
+ 
+        </>
     )
 }
 
