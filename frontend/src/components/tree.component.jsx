@@ -13,6 +13,16 @@ const Tree = () => {
             .then(res => {
                 // should only be one tree
                 dispatch({type: 'SET_TREE', payload: res.data[0]})
+                
+                // i don't understand why the GGF node is black. should be red whenever page refresh
+                let data = {
+                    persons: [{personId: "5e48fb061c9d440000743f79", name: "GGF"}],
+                    _id: "5e4bbfdd56a81a72d9e528ca",
+                    path: "/uploads/GGF-1582022621719.JPG"
+                }
+        
+                dispatch({type: 'SET_PHOTO', payload: data})
+
             })
     }, [])
 

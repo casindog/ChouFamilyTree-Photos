@@ -104,7 +104,7 @@ const Tag = () => {
             return res
         }
 
-    }, [state.photo.persons])
+    }, [...Object.values(state.photo.persons)])
 
     const tagPersonToPhoto = e => {
         if (state.photo._id) {
