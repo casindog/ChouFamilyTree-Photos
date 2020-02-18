@@ -56,7 +56,7 @@ const Tag = () => {
                     return arr.indexOf(d.data.personId)>=0 ? 'red' : 'black'
                 })
         }
-    }, [...Object.values(state.photo)])
+    }, [state.photo.persons])
 
     const tagPersonToPhoto = e => {
         if (state.photo._id) {
