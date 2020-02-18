@@ -101,8 +101,6 @@ const Tag = () => {
                     let data = state.photo
                     data.persons = res.data.tags
                     dispatch( {type: 'SET_PHOTO', payload: data} )
-
-                    // update the tree
                 })
         }
 
