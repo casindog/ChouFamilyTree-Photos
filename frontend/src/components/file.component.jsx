@@ -23,7 +23,6 @@ const File = () => {
                 console.log(res.data)
                 let data = state.album
                 dispatch({type: 'SET_PHOTO', payload: res.data}) 
-                // dispatch({type: 'FETCH_ALBUM', payload: res.data})
                 axios.get('/photos')
                     .then(res => { dispatch({type: 'FETCH_ALBUM', payload: res.data}) })
             })

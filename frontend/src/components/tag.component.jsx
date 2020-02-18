@@ -29,18 +29,13 @@ const Tag = () => {
         if (state.svgRef) {
             // let res = dfs(state.tree, tag.toLowerCase())
             let svg = state.svgRef
-
-            //links
-            // svg.selectAll('.link')
-            // .data(root.links())
-            // .join('path')
-            // .attr('class', 'link')
-            // .attr('fill','none')
-            // .attr('stroke', 'black')
+            let arr = state.photo.persons.map(person => person.personId)
 
             //nodes
             svg.selectAll('.node')
                 .style('fill', d => {
+                    if (arr.indexOf(d.data.personId)>=0) return 'red'
+
                     if (d.data.name.toLowerCase().includes(tag.toLowerCase())
                         && tag.length) {
                     
@@ -53,16 +48,38 @@ const Tag = () => {
 
         }
         setTagUpload(arr)
-
     },[tag])
 
-    const tagPersonToPhoto = e => {
+    useEffect(() => {
+        console.log('loktar')
+        if (state.svgRef) {
+            let svg = state.svgRef
+            let arr = state.photo.persons.map(person => person.personId)
 
+            //links
+            console.log(state.photo.persons)
+            console.log(arr)
+            // svg.selectAll('.link')
+            //     .style('stroke', d => {
+            //         console.log(d)
+            //         // run a lca algorithm, and paint line red
+            //         // if (state.photos.persons)
+            //         return 'red'
+            //     })
+
+            //nodes
+            svg.selectAll('.node')
+                .style('fill', d => {
+                    return arr.indexOf(d.data.personId)>=0 ? 'red' : 'black'
+                })
+        }
+    },[state.photo])
+
+    const tagPersonToPhoto = e => {
         if (state.photo._id) {
             axios.patch(`./photos/${state.photo._id}`, { data: tagUpload } )
                 .then(res => {
                     // dispatch action to update tags
-                    console.log(res.data)
                     let data = state.photo
                     
                     data.persons = res.data.tags

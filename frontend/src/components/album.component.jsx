@@ -21,7 +21,9 @@ const Album = () => {
                     <img 
                         alt='album'
                         key={img._id} 
-                        onClick={() => dispatch({type: 'SET_PHOTO', payload: img}) }
+                        onClick={() => {
+                            dispatch({type: 'SET_PHOTO', payload: img})
+                        }}
                         src={img.path}>
                     </img>)
                 )}
