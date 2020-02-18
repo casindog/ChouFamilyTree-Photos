@@ -12,7 +12,6 @@ const Tag = () => {
         let newArr = []
 
         if (state.svgRef) {
-            // let res = dfs(state.tree, tag.toLowerCase())
             let svg = state.svgRef
             let arr = state.photo.persons.map(person => person.personId)
 
@@ -42,13 +41,30 @@ const Tag = () => {
             let svg = state.svgRef
             let arr = state.photo.persons.map(person => person.personId)
 
+            // draw a red line that connects everyone to GGF
+            // recursion, if the node is one of the people in the photo, then return true
+            // this would mean 1) GGF can have red lines to him, but he will not be in the photo, so his node is black
+            // 2) generation gaps, grandchildren can link up to the GGF. the generation in between will still be black (not in photo)
+
+            // let temp = state.photo.persons.map(person => person.name)
+            let relationships = dfs(state.tree, arr) 
+
+            // return an array with all of target -> source relationship
+            // then in D3, check every link's target and source, and change red
+            let hash = {}
+            for (let r of relationships) {
+                for (let i=r.length-1; i>0; i--) {
+                    hash[r[i]] = r[i-1]
+                }
+            }
+
             //links
-            // svg.selectAll('.link')
-            //     .style('stroke', d => {
-            //         // run a lca algorithm, and paint line red
-            //         // if (state.photos.persons)
-            //         return 'red'
-            //     })
+            svg.selectAll('.link')
+                .style('stroke', d => {
+                    // source goes to value
+                    // target goes to key
+                    if (hash[d.target.data.personId] === d.source.data.personId) return 'red'
+                })
 
             //nodes
             svg.selectAll('.node')
@@ -56,6 +72,23 @@ const Tag = () => {
                     return arr.indexOf(d.data.personId)>=0 ? 'red' : 'black'
                 })
         }
+
+        function dfs(node, arr) {
+            let res = []
+
+            for (let c of node.children) {
+                res = res.concat(dfs(c, arr))
+            }
+
+            res = res.map(ele => [node.personId].concat(ele))
+
+            if (arr.includes(node.personId)) {
+                res.push(node.personId)
+            }
+
+            return res
+        }
+
     }, [state.photo.persons])
 
     const tagPersonToPhoto = e => {
