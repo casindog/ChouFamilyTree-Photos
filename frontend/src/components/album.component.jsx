@@ -1,6 +1,6 @@
 import React, {useEffect, useContext} from 'react'
 import axios from 'axios'
-import './album.styles.css'
+
 import { RootContext } from '../App.js';
 
 const Album = () => {
@@ -18,15 +18,18 @@ const Album = () => {
         return (
             <>
                 {state.album.map(img => (
-                    <img 
-                        alt='album'
-                        key={img._id} 
-                        onClick={() => {
-                            dispatch({type: 'SET_PHOTO', payload: img})
-                        }}
-                        src={img.path}>
-                    </img>)
-                )}
+                    <div>
+                        <img 
+                            alt='album'
+                            key={img._id} 
+                            onClick={() => {
+                                dispatch({type: 'SET_PHOTO', payload: img})
+                            }}
+                            src={img.path}>
+                        </img>
+                    </div>
+
+                ))}
             </>
         )
     }

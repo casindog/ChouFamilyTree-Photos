@@ -3,7 +3,7 @@ import Photo from "./components/photo.component";
 import File from "./components/file.component";
 import Tree from './components/tree.component'
 import Album from './components/album.component'
-import Modal from './components/modal.component'
+import Tag from './components/tag.component'
 
 import './App.css'
 
@@ -66,16 +66,16 @@ function App() {
   return (
     <RootContext.Provider id='root' value={{state, dispatch}}>
         {/* { state.modal ? <Modal/> : null } */}
-        <div id='project-title'>
-          <div>Chou Family Tree and Photos</div>
-          <File/>
-        </div>
-
         <div id='main'>
+          <File/>
+
           <Photo/>
+          <Tag/>
+
           <Tree />
+          <Album/>
+
         </div>
-        <Album/>
         
     </RootContext.Provider>
   );

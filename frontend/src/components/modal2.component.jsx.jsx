@@ -56,7 +56,6 @@ function Modal() {
             <button onClick={handleSubmit}>Add child</button>
             <button onClick={handleDelete}>Delete {state.parent.parentName}</button>
             <button onClick={() => dispatch({type: 'TOGGLE_MODAL', payload: null})}>Close</button>
-
         </div>
     )
 }

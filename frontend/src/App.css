@@ -1,28 +1,77 @@
 #root {
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  justify-content: center;
+  background-color: beige;
+  height: 100vh;
 }
 
 #main {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 90%;
-  height: 60vh;
-}
-
-svg {
-  background-color: beige;
-}
-
-#project-title {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 10fr 1fr 1fr;
+  grid-template-areas: 
+    "header header"
+    "photo  tree"
+    "tag    edit-tree"
+    "album  album";
+  grid-gap: 20px;
+  align-content: center;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  height: 10vh;
-  font-size: 20px;
+  justify-items: center;
+  width: 90%;
+  height: 100vh;
+}
+
+#main #title {
+  grid-area: header;
+  font-size: 20px; 
+  height: 100%
+}
+
+#main img {
+  grid-area: photo;
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
+}
+
+#main #tag {
+  grid-area: tag;
+}
+
+#main svg {
+  grid-area: tree;
+  background-color: lightblue;
+  width: 100%;
+  height: 100%;
+}
+
+#main #modal2 {
+  grid-area: edit-tree;
+}
+
+#main #album {
+  grid-area: album;
+  display: grid;
+  grid-template-columns: repeat(10, 100px);
+  grid-template-rows: 100px;
+  grid-gap: 10px;
+  justify-content: center;
+}
+
+#album img {
+  object-fit: scale-down;
+  cursor: pointer;
+}
+
+#album img:hover {
+  transition: transform .75s;
+  transform: scale(1.5);
+}
+
+.node {
+  cursor: pointer
 }
 
 #modal-root {

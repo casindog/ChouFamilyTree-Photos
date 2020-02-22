@@ -3,7 +3,6 @@ import { RootContext } from '../App'
 import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
 import axios from 'axios'
 import Modal from "./modal2.component.jsx"
-import './tree.styles.css'
 
 const Tree = () => {
     const svgRef = useRef()
@@ -105,10 +104,10 @@ const Tree = () => {
     }, [state.tree])
     
     return (
-        <div id='main-right'>
+        <>
             <svg ref={svgRef}></svg>
             {state.parent ? <Modal/> : null}
-        </div>
+        </>
 
     )
 }

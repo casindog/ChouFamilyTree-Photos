@@ -1,4 +1,9 @@
-#tag-wrapper {
+#tag {
+    display: grid;
+}
+
+
+#tagged-persons {
     display:grid;
     grid-template-columns: repeat(8, 50px);
     grid-template-rows: repeat(1, 25px);
@@ -20,13 +25,11 @@
 
 #add-tag {
     display: flex;
-
     margin: 10px;
 }
 
 #add-tag input {
     width: 150px;
-
 }
 
 #add-tag button {
