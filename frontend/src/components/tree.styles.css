@@ -13,3 +13,7 @@
     max-height: 85%;
     /* object-fit: scale-down; */
 }
+
+.node {
+    cursor: pointer
+}

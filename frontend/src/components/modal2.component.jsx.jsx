@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react'
 import axios from 'axios'
 import { RootContext } from '../App.js';
-import './modal.styles.css'
+import './modal2.styles.css'
 
 function Modal() {
     const {state, dispatch} = useContext(RootContext) 
@@ -44,7 +44,7 @@ function Modal() {
     }
 
     return (
-        <div id='modal'>
+        <div id='modal2'>
             <div>Add child to {state.parent.parentName}</div>
 
             Child name
@@ -54,7 +54,7 @@ function Modal() {
             <textarea type='text' value={info} onChange={e => setInfo(e.target.value)} />
             
             <button onClick={handleSubmit}>Add child</button>
-            <button onClick={handleDelete}>Delete me</button>
+            <button onClick={handleDelete}>Delete {state.parent.parentName}</button>
             <button onClick={() => dispatch({type: 'TOGGLE_MODAL', payload: null})}>Close</button>
 
         </div>

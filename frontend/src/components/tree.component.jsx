@@ -16,7 +16,6 @@ const Tree = () => {
                 // should only be one tree
                 dispatch({type: 'SET_TREE', payload: res.data[0]})
                 
-                // i don't understand why the GGF node is black. should be red whenever page refresh
                 let data = {
                     persons: [{personId: "5e48fb061c9d440000743f79", name: "GGF"}],
                     _id: "5e4bbfdd56a81a72d9e528ca",
@@ -28,8 +27,8 @@ const Tree = () => {
     }, [])
 
     // D3 code
-    let height = 500;
-    let width = 500;
+    let height = 0;
+    let width = 0;
 
     let svgEle = document.getElementsByTagName('svg')[0]
     if (svgEle) {
@@ -92,7 +91,7 @@ const Tree = () => {
                     }
                 })
             })
-
+  
         //labels
         svg.selectAll('.label')
             .data(root.descendants())

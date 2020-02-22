@@ -17,9 +17,12 @@ svg {
 }
 
 #project-title {
-  height: 5vh;
-  font-size: 25px;
-  margin: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 10vh;
+  font-size: 20px;
 }
 
 #modal-root {

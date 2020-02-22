@@ -1,8 +1,9 @@
 #album {
     display: grid;
-    margin: 10px 0px;
-    grid-template-columns: repeat(10, 100px);
-    grid-template-rows: repeat(2, 100px);
+    margin: 20px 0px;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, 100px);
+    grid-template-rows: repeat(2, 150px);
     grid-gap: 10px;
 }
 
