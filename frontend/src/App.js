@@ -63,30 +63,21 @@ const reducer = (state,action) => {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  // const [x, setX] = useState(window.innerWidth)
-  // const [y, setY] = useState(window.innerHeight)
-
-  // const updateDimensions = () => {
-  //   setX(window.innerWidth)
-  //   setY(window.innerHeight)
-  // }
-
-  // useEffect(() => {
-  //   window.addEventListener('resize', updateDimensions)
-  // }, [])
 
   return (
     <RootContext.Provider id='root' value={{state, dispatch}}>
         { state.modal ? <Modal/> : null }
-        <div id='project-title'>Chou Family Tree and Photos</div>
-        <File/>
-
-        <div id='photo-section'>
-          <Photo/>
-          <Album/>
+        <div id='project-title'>
+          Chou Family Tree and Photos
+          <File/>
         </div>
+
+        <div id='main'>
+          <Photo/>
+          <Tree />
+        </div>
+        <Album/>
         
-        <Tree />
     </RootContext.Provider>
   );
 }

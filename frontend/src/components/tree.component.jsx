@@ -2,6 +2,8 @@ import React, {useRef, useEffect, useContext} from 'react'
 import { RootContext } from '../App'
 import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
 import axios from 'axios'
+import { Modal } from './modal.component'
+import './tree.styles.css'
 
 const Tree = () => {
     const svgRef = useRef()
@@ -22,20 +24,27 @@ const Tree = () => {
                 }
         
                 dispatch({type: 'SET_PHOTO', payload: data})
-
             })
     }, [])
 
     // D3 code
-    let height = 300, width = 1200
+    let height = 500;
+    let width = 500;
+
+    let svgEle = document.getElementsByTagName('svg')[0]
+    if (svgEle) {
+        let rect = svgEle.getBoundingClientRect()
+        width = rect.width
+        height = rect.height
+    }
 
     let xScale = scaleLinear()
         .domain([0,width])
-        .range([25,width-25])
+        .range([0.05*width,0.95*width])
 
     let yScale = scaleLinear()
         .domain([0,height])
-        .range([25,height-25])
+        .range([0.05*height,0.95*height])
 
 
     useEffect(() => {
@@ -92,16 +101,16 @@ const Tree = () => {
             .attr('class', 'label')
             .attr('font-size', 12)
             .attr('text-anchor', 'middle')
-            .attr('transform', d => `translate(${xScale(d.x+50)},${yScale(d.y+5)})`)    
+            .attr('transform', d => `translate(${xScale(d.x)},${yScale(d.y+25)})`)    
             
     }, [state.tree])
-
-    let style = {
-        margin: '10px'
-    }
     
     return (
-        <svg ref={svgRef} style={style} width={width} height={height}></svg>
+        <div id='main-right'>
+            <svg ref={svgRef}></svg>
+            <Modal/>
+        </div>
+
     )
 }
 

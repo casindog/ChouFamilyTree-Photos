@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import axios from 'axios'
 import { RootContext } from '../App.js';
 import './modal.styles.css'
+
 function Modal() {
     const {state, dispatch} = useContext(RootContext) 
 

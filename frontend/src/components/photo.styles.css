@@ -1,10 +1,15 @@
-#photo {
-    display: flex;
-    flex-direction: column ;
+#main-left {
+    display: grid;
+    grid-template-rows: auto 25px 50px;
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-#photo img {
-    width: 500px;
-    height: 500px;
+#main-left img {
+    max-width: 100%;
+    max-height: 100%;
     object-fit: scale-down;
 }

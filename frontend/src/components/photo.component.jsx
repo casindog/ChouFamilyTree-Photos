@@ -5,10 +5,10 @@ import Tag from './tag.component'
 import './tag.component'
 
 const Photo = () => {
-    const {state, dispatch} = useContext(RootContext) 
+    const {state} = useContext(RootContext) 
 
     return (
-        <div id='photo'>
+        <div id='main-left'>
             <img alt='main-img' src={state.photo.path}/>
             <Tag/>
         </div>
