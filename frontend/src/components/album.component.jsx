@@ -18,10 +18,9 @@ const Album = () => {
         return (
             <>
                 {state.album.map(img => (
-                    <div>
+                    <div   key={img._id} >
                         <img 
                             alt='album'
-                            key={img._id} 
                             onClick={() => {
                                 dispatch({type: 'SET_PHOTO', payload: img})
                             }}

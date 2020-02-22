@@ -68,13 +68,10 @@ function App() {
         {/* { state.modal ? <Modal/> : null } */}
         <div id='main'>
           <File/>
-
           <Photo/>
           <Tag/>
-
           <Tree />
           <Album/>
-
         </div>
         
     </RootContext.Provider>

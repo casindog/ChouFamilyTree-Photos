@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useContext} from 'react'
+import React, {useState, useRef, useEffect, useContext} from 'react'
 import { RootContext } from '../App'
 import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
 import axios from 'axios'
@@ -7,8 +7,20 @@ import Modal from "./modal2.component.jsx"
 const Tree = () => {
     const svgRef = useRef()
     const {state, dispatch} = useContext(RootContext)
+    const [svgSize, setSvgSize] = useState({width: 0, height: 0})
 
-    // get Family Tree
+    const resizeListener = () => {
+        let svg = document.getElementsByTagName('svg')[0]
+        let rect = svg.getBoundingClientRect()
+        let width = rect.width
+        let height = rect.height
+        setSvgSize({
+            ...svgSize,
+            width,
+            height
+        })
+    }
+
     useEffect(()=> {
         axios.get('/trees')
             .then(res => {
@@ -23,29 +35,24 @@ const Tree = () => {
         
                 dispatch({type: 'SET_PHOTO', payload: data})
             })
+
+        resizeListener()
     }, [])
 
     // D3 code
-    let height = 0;
-    let width = 0;
-
-    let svgEle = document.getElementsByTagName('svg')[0]
-    if (svgEle) {
-        let rect = svgEle.getBoundingClientRect()
-        width = rect.width
-        height = rect.height
-    }
-
-    let xScale = scaleLinear()
-        .domain([0,width])
-        .range([0.05*width,0.95*width])
-
-    let yScale = scaleLinear()
-        .domain([0,height])
-        .range([0.05*height,0.95*height])
-
-
     useEffect(() => {
+        window.addEventListener('resize', resizeListener)
+        let {width, height} = svgSize
+        // console.log(`RESIZED! ${width}, ${height}`)
+
+        let xScale = scaleLinear()
+            .domain([0,width])
+            .range([0.05*width,0.95*width])
+
+        let yScale = scaleLinear()
+            .domain([0,height])
+            .range([0.05*height,0.95*height])
+ 
         const svg = select(svgRef.current)
 
         dispatch({type: 'SET_SVGREF', payload: svg})
@@ -101,7 +108,11 @@ const Tree = () => {
             .attr('text-anchor', 'middle')
             .attr('transform', d => `translate(${xScale(d.x)},${yScale(d.y+25)})`)    
             
-    }, [state.tree])
+
+        return () => {
+            window.removeEventListener('resize', resizeListener)
+        }
+    }, [state.tree,svgSize])
     
     return (
         <>
