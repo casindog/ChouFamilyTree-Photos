@@ -26,8 +26,7 @@ const File = () => {
     }   
 
     return (
-        <div id="title">
-            <div>Chou Family Tree and Photos</div>
+        <div id="title-left">
             <div> Upload a Photo </div>
             <input type='file' onChange={handleFile}></input>
             <button onClick={uploadFile}>Upload</button>
