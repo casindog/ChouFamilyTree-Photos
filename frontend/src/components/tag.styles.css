@@ -1,13 +1,12 @@
 #tag {
     display: grid;
-}
-
-
-#tagged-persons {
-    display:grid;
-    grid-template-columns: repeat(8, 50px);
-    grid-template-rows: repeat(1, 25px);
+    grid-template-columns: repeat(auto-fit, minmax(50px,1fr));
+    grid-template-rows: repeat(auto-fit,minmax(20px,1fr));
+    grid-auto-rows: 1fr;
+    grid-auto-columns: 1fr;
     grid-gap: 10px;
+    width: 100%;
+    height: 100%;
 }
 
 .tag {
@@ -23,15 +22,14 @@
     text-align: center;
 }
 
-#add-tag {
-    display: flex;
-    margin: 10px;
+#tag input {
+    font-size: 15px;
+    grid-column: 1 / -4 ;
+    grid-row: -1 / -1;
 }
 
-#add-tag input {
-    width: 150px;
-}
-
-#add-tag button {
-    height: 25px;
+#tag button {
+    grid-column: -4 / -1;
+    grid-row: -1 / -1;
+    cursor: pointer;
 }

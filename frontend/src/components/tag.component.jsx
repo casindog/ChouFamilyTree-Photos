@@ -141,19 +141,19 @@ const Tag = () => {
     }
 
     return (
-        <div id='tag'>
-            <div id='tagged-persons'>
+        <>
+            <div id='tag'>
                 { state.photo.persons.map(tag => <div 
                     personid={tag.personId}
                     key={tag.personId} 
                     onClick={untagPersonFromPhoto} 
                     className='tag'> {tag.name} </div> )}
-            </div>
-            <div id='add-tag'>
+
                 <input type='text' value={tag} onChange={e => setTag(e.target.value)}></input>
                 <button onClick={tagPersonToPhoto}> Add Tag </button>
             </div>
-        </div>
+          
+        </>
     )
 }
 

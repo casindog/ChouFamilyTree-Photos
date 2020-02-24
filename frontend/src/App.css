@@ -58,15 +58,21 @@
 
 #main #modal2 {
   grid-area: edit-tree;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(20px, 1fr));
+  width: 1fr;
 }
 
 #main #album {
   grid-area: album;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px,1fr));
-  /* grid-template-rows: 100px; */
-  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+  grid-template-rows: repeat(auto-fit, 100px);
   justify-content: center;
+  align-content: center;
+  grid-auto-rows: 100px;
+  grid-auto-columns: 100px;
+  width: 100%
 }
 
 #album img {

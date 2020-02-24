@@ -9,19 +9,6 @@ const Tree = () => {
     const {state, dispatch} = useContext(RootContext)
     const [svgSize, setSvgSize] = useState({width: 0, height: 0})
 
-    const resizeListener = () => {
-        let svg = document.getElementsByTagName('svg')[0]
-        let rect = svg.getBoundingClientRect()
-        let width = rect.width
-        let height = rect.height
-
-        setSvgSize({
-            ...svgSize,
-            width,
-            height
-        })
-    }
-
     useEffect(()=> {
         axios.get('/trees')
             .then(res => {
@@ -40,11 +27,28 @@ const Tree = () => {
         resizeListener()
     }, [])
 
+    const resizeListener = () => {
+        let svg = document.getElementsByTagName('svg')[0]
+        let rect = svg.getBoundingClientRect()
+        let width = rect.width
+        let height = rect.height
+
+        console.log(`RESIZED! ${width}, ${height}`)
+        setSvgSize({
+            ...svgSize,
+            width,
+            height
+        })
+    }
+
     // D3 code
     useEffect(() => {
+        const svg = select(svgRef.current)
+
         window.addEventListener('resize', resizeListener)
+
         let {width, height} = svgSize
-        // console.log(`RESIZED! ${width}, ${height}`)
+        console.log(`RESIZED! ${width}, ${height}`)
 
         let xScale = scaleLinear()
             .domain([0,width])
@@ -53,8 +57,8 @@ const Tree = () => {
         let yScale = scaleLinear()
             .domain([0,height])
             .range([0.05*height,0.95*height])
- 
-        const svg = select(svgRef.current)
+
+            
 
         dispatch({type: 'SET_SVGREF', payload: svg})
 
@@ -113,7 +117,7 @@ const Tree = () => {
         return () => {
             window.removeEventListener('resize', resizeListener)
         }
-    }, [state.tree,svgSize])
+    }, [state.tree, svgSize])
     
     return (
         <>
