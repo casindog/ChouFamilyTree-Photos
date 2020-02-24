@@ -14,6 +14,7 @@ const Tree = () => {
         let rect = svg.getBoundingClientRect()
         let width = rect.width
         let height = rect.height
+
         setSvgSize({
             ...svgSize,
             width,

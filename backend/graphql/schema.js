@@ -1,23 +1,15 @@
 const graphql = require('graphql')
+const Descendent = require('../models/Descendent')
+const Photo = require('../models/Photo')
+// const Tree = require('../models/Tree')
+const Relationship = require('../models/Relationship')
 
 const { GraphQLObjectType,
         GraphQLString,
-        GraphQLArray,
         GraphQLList,
         GraphQLSchema,
-        GraphQLID } = graphql;
-
-// dummydata
-var descendents = [
-    { name: 'Kevin', id: '1'},
-    { name: 'Connie', id: '2'},
-    { name: 'Jeff', id: '3'}
-]
-
-var photos = [
-    { path: 'sample1', id: '1', personId: ['1']},
-    { path: 'sample2', id: '2', personId: ['2','3']}
-]
+        GraphQLID,
+        GraphQLNonNull } = graphql;
 
 
 const DescendentType = new GraphQLObjectType({
@@ -25,9 +17,17 @@ const DescendentType = new GraphQLObjectType({
     fields: () => ({
         id: {type: GraphQLID},
         name: {type: GraphQLString},
-        // info: {type: GraphQLString},
-        // children: {type: GraphQLArray},
-        // spouse: {type: GraphQLArray}
+        info: {type: GraphQLString},
+    })
+})
+
+const RelationshipType = new GraphQLObjectType({
+    name: 'Relationship',
+    fields: () => ({
+        id: {type: GraphQLID},
+        parentId: {type: GraphQLID},
+        childId: {type: GraphQLID},
+        spouseId: {type: GraphQLID}
     })
 })
 
@@ -39,7 +39,8 @@ const PhotoType = new GraphQLObjectType({
         persons: {
             type: new GraphQLList(DescendentType),
             resolve(parent, args) {
-                return descendents.filter(d => parent.personId.includes(d.id))
+                let arr = parent.persons.map(ele => ele.personId)
+                return Descendent.find({ '_id': { $in: arr } })
             } 
         }
     })
@@ -52,30 +53,109 @@ const RootQuery = new GraphQLObjectType({
         descendent: {
             type: DescendentType,
             args: {id: {type: GraphQLID}},
-            resolve(parent, args) {
-                //code to get data from db / other source
-                 for (let d of descendents) {
-                     if (d.id === args.id){
-                        return d
-                     }
-                 }
+            resolve(_, args) {
+                return Descendent.findById(args.id)
+            }
+        },
+        descendents: {
+            type: new GraphQLList(DescendentType),
+            resolve() {
+                return Descendent.find()
             }
         },
         photo: {
             type: PhotoType,
             args: { id: {type: GraphQLID}},
-            resolve(parent, args) {
-                for (let p of photos) {
-                    if (p.id === args.id) {
-                        return p
-                    }
-                }
+            resolve(_, args) {
+                return Photo.findById(args.id)
             }
         },
         photos: {
             type: new GraphQLList(PhotoType),
-            resolve(parent, args) {
-                return photos
+            resolve() {
+                return Photo.find()
+            }
+        }
+    }
+})
+
+
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+        createDescendent: {
+            type: DescendentType,
+            args: {
+                name: {type: GraphQLString},
+                info: {type: GraphQLString},
+            },
+            resolve(_, args) {
+                let descendent = new Descendent({
+                    name: args.name,
+                    info: args.info,
+                })
+                return descendent.save()
+            }
+        },
+        patchDescendent: {
+            type: DescendentType,
+            args: {
+                id: {type: GraphQLID},
+                name: {type: GraphQLString},
+                info: {type: GraphQLString},
+            },
+            resolve(_, args) {
+                Descendent.findById(args.id, (err, descendent) => {
+                    descendent.name = args.name || descendent.name
+                    descendent.info = args.info || descendent.info
+                    return descendent.save()
+                })
+            }
+        },
+        deleteDescendent: {
+            type: DescendentType,
+            args: {
+                id: {type: GraphQLID}
+            },
+            resolve(_, args) {
+                return Descendent.findByIdAndDelete(args.id)
+            }
+        },
+        createRelationship: {
+            type: RelationshipType,
+            args: {
+                parentId: {type: GraphQLID},
+                childId: {type: GraphQLID}
+            },
+            resolve(_, args) {
+                let relationship = new Relationship({
+                    parentId: args.parentId,
+                    childId: args.childId
+                })
+                return relationship.save()
+            }
+        },
+        deleteRelationship: {
+            type: RelationshipType,
+            args: {
+                id: {type: GraphQLID}
+            },
+            resolve(_, args) {
+                return Relationship.findByIdAndDelete(args.id)
+            }
+        },
+        addPhoto: {
+            type: PhotoType,
+            args: {
+                path: {type: GraphQLString},
+                // persons: {type: GraphQLList(DescendentType)}
+            },
+            resolve(_, args) {
+                let photo = new Photo({
+                    path: args.path,
+                    // persons: []
+                })
+                return photo.save()
             }
         }
     }
@@ -83,5 +163,6 @@ const RootQuery = new GraphQLObjectType({
 
 
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation
 })

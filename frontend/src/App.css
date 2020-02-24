@@ -7,7 +7,7 @@
 
 #main {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
   grid-template-rows: 1fr 10fr 1fr 1fr;
   grid-template-areas: 
     "header-left header-right"
