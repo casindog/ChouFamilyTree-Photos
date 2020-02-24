@@ -4,10 +4,11 @@ import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
 import axios from 'axios'
 import Modal from "./modal2.component.jsx"
 
+
 const Tree = () => {
     const svgRef = useRef()
     const {state, dispatch} = useContext(RootContext)
-    const [svgSize, setSvgSize] = useState({width: 0, height: 0})
+    // const [svgSize, setSvgSize] = useState(state.svgDimensions)
 
     useEffect(()=> {
         axios.get('/trees')
@@ -24,7 +25,7 @@ const Tree = () => {
                 dispatch({type: 'SET_PHOTO', payload: data})
             })
 
-        resizeListener()
+        // resizeListener()
     }, [])
 
     const resizeListener = () => {
@@ -33,22 +34,24 @@ const Tree = () => {
         let width = rect.width
         let height = rect.height
 
-        console.log(`RESIZED! ${width}, ${height}`)
-        setSvgSize({
-            ...svgSize,
-            width,
-            height
-        })
+        dispatch({type: 'SET_SVGDIMENSIONS', payload: {width, height}})
+        // setSvgSize({
+        //     ...svgSize,
+        //     width,
+        //     height
+        // })
     }
 
+    useEffect(()=> {
+
+    }, [state.svgDimensions])
     // D3 code
     useEffect(() => {
         const svg = select(svgRef.current)
 
         window.addEventListener('resize', resizeListener)
 
-        let {width, height} = svgSize
-        console.log(`RESIZED! ${width}, ${height}`)
+        let {width, height} = state.svgDimensions
 
         let xScale = scaleLinear()
             .domain([0,width])
@@ -117,11 +120,11 @@ const Tree = () => {
         return () => {
             window.removeEventListener('resize', resizeListener)
         }
-    }, [state.tree, svgSize])
+    }, [state.tree, state.svgDimensions])
     
     return (
         <>
-            <svg ref={svgRef}></svg>
+            <svg  ref={svgRef}></svg>
             {state.parent ? <Modal/> : null}
         </>
 

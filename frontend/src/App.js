@@ -25,7 +25,8 @@ const initialState = {
     children: []
   },
   svgRef: null,
-  modal: false
+  svgDimensions: {}
+  // modal: false
 }
 
 const reducer = (state,action) => {
@@ -54,6 +55,11 @@ const reducer = (state,action) => {
         return {
           ...state,
           svgRef: action.payload
+        }
+      case 'SET_SVGDIMENSIONS':
+        return {
+          ...state,
+          svgDimensions: action.payload
         }
       default:
           return state
