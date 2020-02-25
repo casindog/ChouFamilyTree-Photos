@@ -3,27 +3,58 @@ import { RootContext } from '../App'
 import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
 import axios from 'axios'
 import Modal from "./modal2.component.jsx"
+import {useQuery} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
+const getGGFQuery = gql`
+    {
+        descendent(id: "5e5373a07ffd4c292be15f36"){
+            id name info
+            spouse {
+                id name
+            }
+            children {
+                id name info
+                spouse {
+                    id name
+                }
+                children {
+                    id name info
+                    spouse {
+                        id name
+                    }
+                    children {
+                        id name info
+                        spouse {
+                            id name
+                        }
+                        children {
+                            id name info
+                            spouse {
+                                id name
+                            }
+                            children {
+                                id name info
+                                spouse {
+                                    id name
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+`
 
 const Tree = () => {
     const svgRef = useRef()
     const {state, dispatch} = useContext(RootContext)
 
-    useEffect(()=> {
-        axios.get('/trees')
-            .then(res => {
-                // should only be one tree
-                dispatch({type: 'SET_TREE', payload: res.data[0]})
-                
-                let data = {
-                    persons: [{personId: "5e48fb061c9d440000743f79", name: "GGF"}],
-                    _id: "5e4bbfdd56a81a72d9e528ca",
-                    path: "/uploads/GGF-1582022621719.JPG"
-                }
-        
-                dispatch({type: 'SET_PHOTO', payload: data})
-            })
+    const { loading, data } = useQuery(getGGFQuery)
 
+    useEffect(()=> {
+        // GGF isn't highlighting red upon rendering page
     }, [])
 
     const resizeListener = () => {
@@ -35,11 +66,19 @@ const Tree = () => {
         dispatch({type: 'SET_SVGDIMENSIONS', payload: {width, height}})
     }
 
-    useEffect(()=> {
-
-    }, [state.svgDimensions])
     // D3 code
     useEffect(() => {
+        if (!loading && data) {
+            dispatch({type: 'SET_TREE', payload: data.descendent})
+            // let temp = {
+            //     persons: [{personId: "5e5373a07ffd4c292be15f36", name: "GGF"}],
+            //     _id: "5e54cd8bbbe8e870735d0668",
+            //     path: "/uploads/GGF-1582615947199.JPG"
+            // }
+    
+            // dispatch({type: 'SET_PHOTO', payload: temp})
+        }
+
         const svg = select(svgRef.current)
 
         window.addEventListener('resize', resizeListener)
@@ -55,7 +94,6 @@ const Tree = () => {
             .range([0.05*height,0.9*height])
 
             
-
         dispatch({type: 'SET_SVGREF', payload: svg})
 
         const root = hierarchy(state.tree)
@@ -84,7 +122,7 @@ const Tree = () => {
             .data(root.descendants())
             .join('circle') 
             .attr('class', 'node')
-            .attr('r', 7)
+            .attr('r', 6)
             .attr('fill', 'black')
             .attr('stroke-width',1)
             .attr('stroke', 'black')
@@ -113,11 +151,11 @@ const Tree = () => {
         return () => {
             window.removeEventListener('resize', resizeListener)
         }
-    }, [state.tree, state.svgDimensions])
+    }, [state.tree, state.svgDimensions, data])
     
     return (
         <>
-            <svg  ref={svgRef}></svg>
+            <svg ref={svgRef}></svg>
             {state.parent ? <Modal/> : null}
         </>
 

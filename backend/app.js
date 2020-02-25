@@ -4,9 +4,12 @@ const app = express()
 const db = require('./config/keys').mongoURI
 const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload')
-
 const graphqlHTTP = require('express-graphql')
 const schema = require('./graphql/schema')
+const cors = require('cors')
+
+// allow cross-origin requests
+app.use(cors())
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

@@ -124,17 +124,47 @@ const Mutation = new GraphQLObjectType({
             type: PhotoType,
             args: {
                 path: {type: GraphQLString},
-                // persons: {type: new GraphQLList(DescendentType)}
             },
-            resolve(parent, args) {
-                parent.persons
+            resolve(_, args) {
                 let photo = new Photo({
                     path: args.path,
-                    // persons: []
                 })
                 return photo.save()
             }
+        },
+        editTagsToPhoto: {
+            type: PhotoType,
+            args: {
+                photoId: {type: GraphQLID},
+                personId: {type: GraphQLID},
+                action: {type: GraphQLString}
+            },
+            resolve(_, args) {
+                let p = Photo.findById(args.photoId)
+                Photo.findById(args.photoId, (_, photo) => {
+                    if (!photo) { 
+                        res.status(404).send("photo not found");
+                    } else {
+                        if (args.action==='add') {
+                            for (let p of photo.persons) {
+                                if (p===args.personId) return p
+                            }
+                            photo.persons.push(args.personId)
+                        } else if (args.action==='del') {
+                            for (let i=0; i<photo.persons.length; i++) {
+                                if (photo.persons[i]===args.personId) {
+                                    photo.persons.splice(i,1)
+                                }
+                            }
+                        }
+                    }
+            
+                    photo.save()   
+                    return p
+                })
+            }
         }
+
     }
 })
 

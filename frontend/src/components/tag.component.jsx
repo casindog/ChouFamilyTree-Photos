@@ -33,21 +33,6 @@ const Tag = () => {
 
         }
 
-        function dfs(node, arr) {
-            let res = []
-
-            for (let c of node.children) {
-                res = res.concat(dfs(c, arr))
-            }
-
-            res = res.map(ele => [node.personId].concat(ele))
-
-            if (arr.includes(node.personId)) {
-                res.push(node.personId)
-            }
-
-            return res
-        }
         setTagUpload(newArr)
 
     },[tag])
@@ -63,6 +48,8 @@ const Tag = () => {
             // 2) generation gaps, grandchildren can link up to the GGF. the generation in between will still be black (not in photo)
 
             let relationships = dfs(state.tree, arr) 
+            // console.log(arr)
+            console.log(relationships)
 
             // return an array with all of target -> source relationship
             // then in D3, check every link's target and source, and change red
@@ -72,6 +59,7 @@ const Tag = () => {
                     hash[r[i]] = r[i-1]
                 }
             }
+            // this is not working right now
 
             //links
             svg.selectAll('.link')
@@ -84,7 +72,7 @@ const Tag = () => {
             //nodes
             svg.selectAll('.node')
                 .style('fill', d => {
-                    return arr.indexOf(d.data.personId)>=0 ? 'red' : 'black'
+                    return arr.indexOf(d.data.id)>=0 ? 'red' : 'black'
                 })
         }
 
@@ -95,10 +83,10 @@ const Tag = () => {
                 res = res.concat(dfs(c, arr))
             }
 
-            res = res.map(ele => [node.personId].concat(ele))
+            res = res.map(ele => [node.id].concat(ele))
 
-            if (arr.includes(node.personId)) {
-                res.push(node.personId)
+            if (arr.includes(node.id)) {
+                res.push(node.id)
             }
 
             return res
@@ -108,15 +96,15 @@ const Tag = () => {
 
     const tagPersonToPhoto = e => {
         if (state.photo._id) {
-            axios.patch(`./photos/${state.photo._id}`, { data: tagUpload } )
-                .then(res => {
-                    // b/c it's hard to update embedded/nested objects w/ hooks
-                    // we have intermediate step to copy the photo object,
-                    // then update the tag information
-                    let data = state.photo
-                    data.persons = res.data.tags
-                    dispatch( {type: 'SET_PHOTO', payload: data} )
-                })
+            // axios.patch(`./photos/${state.photo._id}`, { data: tagUpload } )
+            //     .then(res => {
+            //         // b/c it's hard to update embedded/nested objects w/ hooks
+            //         // we have intermediate step to copy the photo object,
+            //         // then update the tag information
+            //         let data = state.photo
+            //         data.persons = res.data.tags
+            //         dispatch( {type: 'SET_PHOTO', payload: data} )
+            //     })
         }
 
         setTag('')

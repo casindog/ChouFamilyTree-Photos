@@ -7,12 +7,19 @@ import Tag from './components/tag.component'
 
 import './App.css'
 
-import ApolloClient from 'apollo-boost';
-import {ApolloProvider} from 'react-apollo';
+import ApolloClient from 'apollo-client'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { createHttpLink } from 'apollo-link-http'
+import { ApolloProvider } from '@apollo/react-hooks'
 
 // apollo client setup
+const httpLink = createHttpLink({
+  uri: 'http://localhost:5000/graphql'
+})
+
 const client = new ApolloClient({
-    uri: 'http://localhost:5000/graphql'
+  link: httpLink,
+  cache: new InMemoryCache()
 })
 
 export const RootContext = createContext()
@@ -27,14 +34,13 @@ const initialState = {
   album: [],
   parent: null,
   tree: {
-    treeId: null,
-    personId: null,
     name: '',
+    info: '',
+    spouse: [],
     children: []
   },
   svgRef: null,
   svgDimensions: {}
-  // modal: false
 }
 
 const reducer = (state,action) => {
@@ -79,7 +85,6 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-
       <RootContext.Provider id='root' value={{state, dispatch}}>
           {/* { state.modal ? <Modal/> : null } */}
           <div id='main'>
