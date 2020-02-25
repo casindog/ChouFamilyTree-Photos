@@ -1,8 +1,6 @@
 const graphql = require('graphql')
 const Descendent = require('../models/Descendent')
 const Photo = require('../models/Photo')
-// const Tree = require('../models/Tree')
-const Relationship = require('../models/Relationship')
 
 const { GraphQLObjectType,
         GraphQLString,
@@ -18,16 +16,18 @@ const DescendentType = new GraphQLObjectType({
         id: {type: GraphQLID},
         name: {type: GraphQLString},
         info: {type: GraphQLString},
-    })
-})
-
-const RelationshipType = new GraphQLObjectType({
-    name: 'Relationship',
-    fields: () => ({
-        id: {type: GraphQLID},
-        parentId: {type: GraphQLID},
-        childId: {type: GraphQLID},
-        spouseId: {type: GraphQLID}
+        children: {
+            type: new GraphQLList(DescendentType),
+            resolve(parent, _) {
+                return Descendent.find({ '_id': { $in: parent.children} })
+            }
+        },
+        spouse: {
+            type: new GraphQLList(DescendentType),
+            resolve(parent, _) {
+                return Descendent.find({ '_id': { $in: parent.spouse}})
+            }
+        }
     })
 })
 
@@ -38,14 +38,13 @@ const PhotoType = new GraphQLObjectType({
         path: {type: GraphQLString},
         persons: {
             type: new GraphQLList(DescendentType),
-            resolve(parent, args) {
+            resolve(parent, _) {
                 let arr = parent.persons.map(ele => ele.personId)
-                return Descendent.find({ '_id': { $in: arr } })
+                return Descendent.find({ '_id': { $in: parent.persons } })
             } 
         }
     })
 })
-
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -121,36 +120,14 @@ const Mutation = new GraphQLObjectType({
                 return Descendent.findByIdAndDelete(args.id)
             }
         },
-        createRelationship: {
-            type: RelationshipType,
-            args: {
-                parentId: {type: GraphQLID},
-                childId: {type: GraphQLID}
-            },
-            resolve(_, args) {
-                let relationship = new Relationship({
-                    parentId: args.parentId,
-                    childId: args.childId
-                })
-                return relationship.save()
-            }
-        },
-        deleteRelationship: {
-            type: RelationshipType,
-            args: {
-                id: {type: GraphQLID}
-            },
-            resolve(_, args) {
-                return Relationship.findByIdAndDelete(args.id)
-            }
-        },
-        addPhoto: {
+        createPhoto: {
             type: PhotoType,
             args: {
                 path: {type: GraphQLString},
-                // persons: {type: GraphQLList(DescendentType)}
+                // persons: {type: new GraphQLList(DescendentType)}
             },
-            resolve(_, args) {
+            resolve(parent, args) {
+                parent.persons
                 let photo = new Photo({
                     path: args.path,
                     // persons: []

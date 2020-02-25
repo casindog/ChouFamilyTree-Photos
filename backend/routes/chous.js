@@ -18,8 +18,5 @@ router.post('/', (req,res) => {
         })
 })
 
-router.patch('/', (req, res) => {
-
-})
 
 module.exports = router;

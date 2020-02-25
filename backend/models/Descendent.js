@@ -7,6 +7,12 @@ const DescendentSchema = new Schema({
         required: true
     },
     info: String,
+    children: {
+        type: Array
+    }, 
+    spouse: { 
+        type: Array
+    }
 })
 
 module.exports = mongoose.model('Descendent', DescendentSchema)

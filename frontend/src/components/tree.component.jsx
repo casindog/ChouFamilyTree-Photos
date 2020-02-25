@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, useContext} from 'react'
+import React, {useRef, useEffect, useContext} from 'react'
 import { RootContext } from '../App'
 import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
 import axios from 'axios'
@@ -8,7 +8,6 @@ import Modal from "./modal2.component.jsx"
 const Tree = () => {
     const svgRef = useRef()
     const {state, dispatch} = useContext(RootContext)
-    // const [svgSize, setSvgSize] = useState(state.svgDimensions)
 
     useEffect(()=> {
         axios.get('/trees')
@@ -25,7 +24,6 @@ const Tree = () => {
                 dispatch({type: 'SET_PHOTO', payload: data})
             })
 
-        // resizeListener()
     }, [])
 
     const resizeListener = () => {
@@ -35,11 +33,6 @@ const Tree = () => {
         let height = rect.height
 
         dispatch({type: 'SET_SVGDIMENSIONS', payload: {width, height}})
-        // setSvgSize({
-        //     ...svgSize,
-        //     width,
-        //     height
-        // })
     }
 
     useEffect(()=> {
@@ -59,7 +52,7 @@ const Tree = () => {
 
         let yScale = scaleLinear()
             .domain([0,height])
-            .range([0.05*height,0.95*height])
+            .range([0.05*height,0.9*height])
 
             
 

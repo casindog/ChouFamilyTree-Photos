@@ -6,16 +6,16 @@ const TreeSchema = new Schema({
         type: String,
         required: true
     },
-    // name: {
-    //     type: String,
-    //     required: true
-    // },
-    // spouse: {
-    //     type: Array
-    // },
-    // children: {
-    //     type: Array
-    // }
+    name: {
+        type: String,
+        required: true
+    },
+    spouse: {
+        type: Array
+    },
+    children: {
+        type: Array
+    }
 })
 
 const Tree = mongoose.model('trees', TreeSchema);

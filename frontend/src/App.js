@@ -7,6 +7,14 @@ import Tag from './components/tag.component'
 
 import './App.css'
 
+import ApolloClient from 'apollo-boost';
+import {ApolloProvider} from 'react-apollo';
+
+// apollo client setup
+const client = new ApolloClient({
+    uri: 'http://localhost:5000/graphql'
+})
+
 export const RootContext = createContext()
 
 const initialState = { 
@@ -70,19 +78,22 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
-    <RootContext.Provider id='root' value={{state, dispatch}}>
-        {/* { state.modal ? <Modal/> : null } */}
-        <div id='main'>
-          <div id='title-right' >Chou Family Tree</div>
+    <ApolloProvider client={client}>
 
-          <File/>
-          <Photo/>
-          <Tag/>
-          <Tree />
-          <Album/>
-        </div>
-        
-    </RootContext.Provider>
+      <RootContext.Provider id='root' value={{state, dispatch}}>
+          {/* { state.modal ? <Modal/> : null } */}
+          <div id='main'>
+            <div id='title-right' >Chou Family Tree</div>
+
+            <File/>
+            <Photo/>
+            <Tag/>
+            <Tree />
+            <Album/>
+          </div>
+          
+      </RootContext.Provider>
+    </ApolloProvider>
   );
 }
 
