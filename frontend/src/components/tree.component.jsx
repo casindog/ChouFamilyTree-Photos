@@ -1,7 +1,6 @@
 import React, {useRef, useEffect, useContext} from 'react'
 import { RootContext } from '../App'
 import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
-import axios from 'axios'
 import Modal from "./modal2.component.jsx"
 import {useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
@@ -50,12 +49,7 @@ const getGGFQuery = gql`
 const Tree = () => {
     const svgRef = useRef()
     const {state, dispatch} = useContext(RootContext)
-
     const { loading, data } = useQuery(getGGFQuery)
-
-    useEffect(()=> {
-        // GGF isn't highlighting red upon rendering page
-    }, [])
 
     const resizeListener = () => {
         let svg = document.getElementsByTagName('svg')[0]

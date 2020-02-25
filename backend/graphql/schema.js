@@ -140,28 +140,34 @@ const Mutation = new GraphQLObjectType({
                 action: {type: GraphQLString}
             },
             resolve(_, args) {
-                let p = Photo.findById(args.photoId)
-                Photo.findById(args.photoId, (_, photo) => {
-                    if (!photo) { 
-                        res.status(404).send("photo not found");
-                    } else {
-                        if (args.action==='add') {
-                            for (let p of photo.persons) {
-                                if (p===args.personId) return p
-                            }
-                            photo.persons.push(args.personId)
-                        } else if (args.action==='del') {
-                            for (let i=0; i<photo.persons.length; i++) {
-                                if (photo.persons[i]===args.personId) {
-                                    photo.persons.splice(i,1)
+                return new Promise((resolve, reject) => {
+                    return Photo.findById(args.photoId, (_, photo) => {
+                        if (photo) {
+                            if (args.action==='add') {
+                                if (checkPersonsArr(photo.persons, args.personId)) {
+                                    photo.persons.push(args.personId)
+                                }
+                            } else if (args.action==='del') {
+                                for (let i=0; i<photo.persons.length; i++) {
+                                    if (photo.persons[i]===args.personId) {
+                                        photo.persons.splice(i,1)
+                                    }
                                 }
                             }
+                            photo.save((err, res) => {
+                                if (err) reject(err)
+                                resolve(res)
+                            })
                         }
-                    }
-            
-                    photo.save()   
-                    return p
+                    })
                 })
+
+                function checkPersonsArr(arr, id) {
+                    for (let personId of arr) {
+                        if (personId===id) return false
+                    }
+                    return true
+                }
             }
         }
 
