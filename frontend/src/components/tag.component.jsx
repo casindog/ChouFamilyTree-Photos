@@ -85,12 +85,13 @@ const Tag = () => {
                 }
             }
             console.log(hash)
-
+            console.log(tree.data.descendent)
             const root = hierarchy(tree.data.descendent)
 
             //links
             svg.selectAll('.link')
                 .data(root.links())
+                .join('path')
                 .style('stroke', d => {
                     // source goes to value
                     // target goes to key
@@ -103,6 +104,7 @@ const Tag = () => {
             //nodes
             svg.selectAll('.node')
                 .data(root.descendants())
+                .join('circle')
                 .style('fill', d => {
                     return arr.indexOf(d.data.id)>=0 ? 'red' : 'black'
                 })
@@ -124,7 +126,7 @@ const Tag = () => {
             return res
         }
 
-    }, [state.photo, tree.data])
+    }, [state.photo, tree.data, data])
 
     const tagPersonToPhoto = e => {
         if (tagUpload) {

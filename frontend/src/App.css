@@ -61,7 +61,6 @@
   display: grid;
   grid-template-columns: repeat(8, minmax(20px, 1fr));
   grid-gap: 5px;
-  font-size: 10px;
   justify-content: center;
   align-content: center;
   justify-items: center;
@@ -71,6 +70,7 @@
 
 #modal2 * {
   display: flex;
+  font-size: x-small;
   justify-content: center;
   align-items: center;
   text-align: center;

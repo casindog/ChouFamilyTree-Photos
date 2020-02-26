@@ -6,7 +6,7 @@ import {useQuery} from '@apollo/react-hooks'
 
 function Modal() {
     const {state, dispatch} = useContext(RootContext) 
-    const { refetch } = useQuery(getGGFQuery)
+    const {refetch} = useQuery(getGGFQuery)
 
     const [name, setName] = useState('')
     const [info, setInfo] = useState('')
@@ -30,10 +30,15 @@ function Modal() {
                 axios.patch('./descendents', data)
                     .then(() => {
                         // use graphql to query GGF descendent again. 
+                        console.log(this)
                         refetch()
+                    })
+                    .catch((err) => {
+                        return console.log(err)
                     })
                 
             })   
+
     }
 
     const handleDelete = e => {
@@ -44,11 +49,10 @@ function Modal() {
             action: 'del'
         }
         axios.delete(`./descendents/${state.parent.selectedId}`)
-            .then(res => {
+            .then(() => {
                 axios.patch(`./descendents`, data)
                 .then(() => {
                     refetch()
-                 
                 })
             })
   

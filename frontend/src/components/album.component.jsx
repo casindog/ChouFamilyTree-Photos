@@ -4,8 +4,9 @@ import {useQuery} from '@apollo/react-hooks'
 import {getAlbum} from '../graphQL/queries'
 
 const Album = () => {
-    const {dispatch} = useContext(RootContext) 
+    const {state, dispatch} = useContext(RootContext) 
     const { loading, data } = useQuery(getAlbum)
+
 
     useEffect(() => {
         // turn this into graphql
@@ -30,7 +31,7 @@ const Album = () => {
 
         // eventually, i want to pass in a selected person from
         // the store to filter the album w/ photos tagged w/ selected person
-    }, [data])
+    }, [state.photo, data])
 
     if (loading) return null
 
