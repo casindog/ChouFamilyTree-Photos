@@ -32,12 +32,6 @@ const initialState = {
     persons: []
   },
   parent: null,
-  tree: {
-    name: '',
-    info: '',
-    spouse: [],
-    children: []
-  },
   svgRef: null,
   svgDimensions: {}
 }
@@ -52,11 +46,6 @@ const reducer = (state,action) => {
         return {
           ...state,
           photo: action.payload
-        }
-      case 'SET_TREE':
-        return {
-          ...state,
-          tree: action.payload
         }
       case 'TOGGLE_MODAL':
         return {

@@ -1,7 +1,6 @@
 import React, {useState, useContext} from 'react'
 import axios from 'axios'
 import { RootContext } from '../App.js';
-import './modal2.styles.css'
 import {getGGFQuery} from '../graphQL/queries'
 import {useQuery} from '@apollo/react-hooks'
 
@@ -49,6 +48,7 @@ function Modal() {
                 axios.patch(`./descendents`, data)
                 .then(() => {
                     refetch()
+                 
                 })
             })
   
@@ -58,10 +58,10 @@ function Modal() {
         <div id='modal2'>
             <div>Add child to {state.parent.selectedName}</div>
 
-            Child name
+            <div>Child name</div>
             <input type='text' value={name} onChange={e => setName(e.target.value)} />
 
-            Child info
+            <div>Child info</div>
             <textarea type='text' value={info} onChange={e => setInfo(e.target.value)} />
             
             <button onClick={handleSubmit}>Add child</button>

@@ -4,7 +4,7 @@ import {useQuery} from '@apollo/react-hooks'
 import {getAlbum} from '../graphQL/queries'
 
 const Album = () => {
-    const {state, dispatch} = useContext(RootContext) 
+    const {dispatch} = useContext(RootContext) 
     const { loading, data } = useQuery(getAlbum)
 
     useEffect(() => {

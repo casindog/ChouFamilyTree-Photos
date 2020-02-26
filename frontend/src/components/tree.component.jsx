@@ -21,18 +21,14 @@ const Tree = () => {
 
     useEffect(() => {
         if (!loading && data) {
-            dispatch({type: 'SET_TREE', payload: data.descendent})
             // if (!state.photo.id) {
             //     let temp = {
             //         persons: [{id: "5e5373a07ffd4c292be15f36", name: "GGF"}],
             //         id: "5e54db081ac47083042c96db",
             //         path: "/uploads/GGF-1582619400013.JPG"
             //     }
-        
             //     dispatch({type: 'SET_PHOTO', payload: temp})
             // }
-        }
-
 
         // D3 code
         const svg = select(svgRef.current)
@@ -52,7 +48,7 @@ const Tree = () => {
             
         dispatch({type: 'SET_SVGREF', payload: svg})
 
-        const root = hierarchy(state.tree)
+        const root = hierarchy(data.descendent)
         const treeLayout = tree().size([width, height])
         treeLayout(root)
         
@@ -104,11 +100,12 @@ const Tree = () => {
             .attr('font-size', 10)
             .attr('text-anchor', 'middle')
             .attr('transform', d => `translate(${xScale(d.x)},${yScale(d.y+25)})`)    
+        }
 
         return () => {
             window.removeEventListener('resize', resizeListener)
         }
-    }, [state.tree, state.svgDimensions, data, state.photo])
+    }, [state.svgDimensions, state.photo, data])
     
     return (
         <>

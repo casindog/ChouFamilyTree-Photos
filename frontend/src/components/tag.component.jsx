@@ -2,14 +2,17 @@ import React, {useState, useEffect, useContext} from 'react'
 import { RootContext } from '../App'
 import './tag.styles.css'
 import { useQuery, useMutation} from '@apollo/react-hooks'
-import {getPhoto, getAlbum, getGGFQuery, editPhotoTagsMutation} from '../graphQL/queries'
+import {getAlbum, getGGFQuery, editPhotoTagsMutation} from '../graphQL/queries'
+import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
+
 
 const Tag = () => {
-    const {state, dispatch} = useContext(RootContext)
+    const {state} = useContext(RootContext)
     const [tag, setTag] = useState('')
     const [tagUpload, setTagUpload] = useState([])
     const { loading, data } = useQuery(getAlbum)
-    const [editPhotoTags, { error } ] = useMutation(editPhotoTagsMutation)
+    const tree = useQuery(getGGFQuery)
+    const [editPhotoTags] = useMutation(editPhotoTagsMutation)
 
     useEffect(() => {
         let newArr = []
@@ -18,7 +21,7 @@ const Tag = () => {
             let svg = state.svgRef
 
             // I'd prefer to use the getPhoto gql, but i had issues w/ query variables
-            let main;
+            let main = {persons: []};
             for (let photo of data.photos) {
                 if (photo.id === state.photo.id) {
                     main = photo;
@@ -54,7 +57,7 @@ const Tag = () => {
             let svg = state.svgRef
 
             // I'd prefer to use the getPhoto gql, but i had issues w/ query variables
-            let main;
+            let main = {persons: []};
             for (let photo of data.photos) {
                 if (photo.id === state.photo.id) {
                     main = photo;
@@ -63,14 +66,15 @@ const Tag = () => {
             }
 
             let arr = main.persons.map(person => person.id)
+            console.log(main)
 
             // draw a red line that connects everyone to GGF
             // recursion, if the node is one of the people in the photo, then return true
             // this would mean 1) GGF can have red lines to him, but he will not be in the photo, so his node is black
             // 2) generation gaps, grandchildren can link up to the GGF. the generation in between will still be black (not in photo)
 
-            let relationships = dfs(state.tree, arr) 
-            // funny thing happens when rootNode GGF is in the picture,
+            let relationships = dfs(tree.data.descendent, arr) 
+            console.log(relationships)
 
             // return an array with all of target -> source relationship
             // then in D3, check every link's target and source, and change red
@@ -80,17 +84,25 @@ const Tag = () => {
                     hash[r[i]] = r[i-1]
                 }
             }
+            console.log(hash)
+
+            const root = hierarchy(tree.data.descendent)
 
             //links
             svg.selectAll('.link')
+                .data(root.links())
                 .style('stroke', d => {
                     // source goes to value
                     // target goes to key
-                    if (hash[d.target.data.id] === d.source.data.id) return 'red'
+                    if (hash[d.target.data.id] === d.source.data.id) {
+                        console.log(d.target.data.id, d.source.data.id)
+                        return 'red'
+                    }
                 })
 
             //nodes
             svg.selectAll('.node')
+                .data(root.descendants())
                 .style('fill', d => {
                     return arr.indexOf(d.data.id)>=0 ? 'red' : 'black'
                 })
@@ -112,7 +124,7 @@ const Tag = () => {
             return res
         }
 
-    }, [state.photo, data])
+    }, [state.photo, tree.data])
 
     const tagPersonToPhoto = e => {
         if (tagUpload) {
@@ -145,7 +157,7 @@ const Tag = () => {
     function createTags() {
         if (state.photo.id) {
             // I'd prefer to use the getPhoto gql, but i had issues w/ query variables
-            let main;
+            let main = {persons: []};
             for (let photo of data.photos) {
                 if (photo.id === state.photo.id) {
                     main = photo;

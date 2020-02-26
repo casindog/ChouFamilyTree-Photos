@@ -4,7 +4,6 @@ import { RootContext } from '../App.js';
 import {useQuery} from '@apollo/react-hooks'
 import {getAlbum} from '../graphQL/queries'
 
-
 // file upload resource
 // https://codeburst.io/image-uploading-using-react-and-node-to-get-the-images-up-c46ec11a7129
 
@@ -18,12 +17,13 @@ const File = () => {
 
     const uploadFile = e => {
         e.preventDefault();
-        // might have to turn this into a graphql req
+        // might have to turn this into graphql
         const fd = new FormData()
         fd.append('file', state.file);
 
         axios.post('./photos', fd)
             .then(res => { 
+                res.data.id = res.data._id
                 dispatch({type: 'SET_PHOTO', payload: res.data}) 
                 album.refetch()
             })
