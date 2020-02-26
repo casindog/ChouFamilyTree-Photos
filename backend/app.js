@@ -32,10 +32,10 @@ app.listen(port, () => console.log(`Server is running on port ${port}`));
 
 // app.use('/uploads', express.static('uploads'));
 
-const trees = require("./routes/trees");
+// const trees = require("./routes/trees");
 const photos = require('./routes/photos')
 const descendents = require('./routes/descendents')
 
-app.use('/trees', trees);
+// app.use('/trees', trees);
 app.use('/photos', photos)
 app.use('/descendents', descendents)

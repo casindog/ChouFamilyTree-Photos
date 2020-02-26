@@ -41,4 +41,15 @@ const getGGFQuery = gql`
     }
 `
 
-export {getGGFQuery}
+const getAlbum = gql`
+{ 
+    photos {
+        id path
+        persons {
+            id name
+        }
+    }   
+}
+`
+
+export {getGGFQuery, getAlbum}

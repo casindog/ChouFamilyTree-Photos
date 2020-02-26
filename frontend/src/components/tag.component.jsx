@@ -2,7 +2,6 @@ import React, {useState, useEffect, useContext} from 'react'
 import axios from 'axios'
 import { RootContext } from '../App'
 import './tag.styles.css'
-import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 const editTagToPhoto = gql`
@@ -19,7 +18,6 @@ const Tag = () => {
     const {state, dispatch} = useContext(RootContext)
     const [tag, setTag] = useState('')
     const [tagUpload, setTagUpload] = useState([])
-    const {loading, data } = useMutation(editTagToPhoto)
 
     useEffect(() => {
         let newArr = []

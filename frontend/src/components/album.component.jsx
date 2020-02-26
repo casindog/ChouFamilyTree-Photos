@@ -1,18 +1,7 @@
 import React, {useEffect, useContext} from 'react'
 import { RootContext } from '../App.js';
 import {useQuery} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
-
-const getAlbum = gql`
-{ 
-    photos {
-        id path
-        persons {
-            id name
-        }
-    }   
-}
-`
+import {getAlbum} from '../graphQL/queries'
 
 const Album = () => {
     const {state, dispatch} = useContext(RootContext) 
@@ -37,7 +26,6 @@ const Album = () => {
                     width: rect.width,
                     height: rect.height
                 }
-
                 
                 dispatch({type: 'SET_SVGDIMENSIONS', payload: dimensions})
             },0)
