@@ -61,7 +61,6 @@ const Tag = () => {
 
             let relationships = dfs(state.tree, arr) 
             // funny thing happens when rootNode GGF is in the picture,
-            // console.log(hash)
 
             // return an array with all of target -> source relationship
             // then in D3, check every link's target and source, and change red

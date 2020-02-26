@@ -3,48 +3,7 @@ import { RootContext } from '../App'
 import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
 import Modal from "./modal2.component.jsx"
 import {useQuery} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
-
-const getGGFQuery = gql`
-    {
-        descendent(id: "5e5373a07ffd4c292be15f36"){
-            id name info
-            spouse {
-                id name
-            }
-            children {
-                id name info
-                spouse {
-                    id name
-                }
-                children {
-                    id name info
-                    spouse {
-                        id name
-                    }
-                    children {
-                        id name info
-                        spouse {
-                            id name
-                        }
-                        children {
-                            id name info
-                            spouse {
-                                id name
-                            }
-                            children {
-                                id name info
-                                spouse {
-                                    id name
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-`
+import {getGGFQuery} from '../graphQL/queries'
 
 const Tree = () => {
     const svgRef = useRef()
@@ -125,8 +84,10 @@ const Tree = () => {
                 dispatch({
                     type: 'TOGGLE_MODAL', 
                     payload: {
-                        parentId: node.data.personId,
-                        parentName: node.data.name
+                        selectedId: node.data.id,
+                        selectedName: node.data.name,
+                        parentId: node.parent ? node.parent.data.id : null,
+                        parentName: node.parent ? node.parent.data.name : null,
                     }
                 })
             })
