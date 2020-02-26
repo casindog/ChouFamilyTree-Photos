@@ -1,5 +1,4 @@
 import React, {useEffect, useContext} from 'react'
-
 import { RootContext } from '../App.js';
 import {useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
