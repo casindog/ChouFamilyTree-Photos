@@ -1,6 +1,8 @@
 import React, {useContext} from 'react'
 import axios from 'axios';
 import { RootContext } from '../App.js';
+import {useQuery} from '@apollo/react-hooks'
+import {getAlbum} from '../graphQL/queries'
 
 
 // file upload resource
@@ -8,6 +10,7 @@ import { RootContext } from '../App.js';
 
 const File = () => {
     const {state, dispatch} = useContext(RootContext) 
+    const album = useQuery(getAlbum)
 
     const handleFile = e => {
         if (e.target.files.length) { dispatch({type: 'SET_FILE', payload: e.target.files[0]}) }
@@ -15,14 +18,14 @@ const File = () => {
 
     const uploadFile = e => {
         e.preventDefault();
+        // might have to turn this into a graphql req
         const fd = new FormData()
         fd.append('file', state.file);
 
         axios.post('./photos', fd)
             .then(res => { 
                 dispatch({type: 'SET_PHOTO', payload: res.data}) 
-                axios.get('/photos')
-                    .then(res => { dispatch({type: 'FETCH_ALBUM', payload: res.data}) })
+                album.refetch()
             })
     }   
 

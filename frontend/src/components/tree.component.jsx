@@ -19,19 +19,22 @@ const Tree = () => {
         dispatch({type: 'SET_SVGDIMENSIONS', payload: {width, height}})
     }
 
-    // D3 code
     useEffect(() => {
         if (!loading && data) {
             dispatch({type: 'SET_TREE', payload: data.descendent})
-            // let temp = {
-            //     persons: [{personId: "5e5373a07ffd4c292be15f36", name: "GGF"}],
-            //     _id: "5e54cd8bbbe8e870735d0668",
-            //     path: "/uploads/GGF-1582615947199.JPG"
+            // if (!state.photo.id) {
+            //     let temp = {
+            //         persons: [{id: "5e5373a07ffd4c292be15f36", name: "GGF"}],
+            //         id: "5e54db081ac47083042c96db",
+            //         path: "/uploads/GGF-1582619400013.JPG"
+            //     }
+        
+            //     dispatch({type: 'SET_PHOTO', payload: temp})
             // }
-    
-            // dispatch({type: 'SET_PHOTO', payload: temp})
         }
 
+
+        // D3 code
         const svg = select(svgRef.current)
 
         window.addEventListener('resize', resizeListener)
@@ -98,15 +101,14 @@ const Tree = () => {
             .join('text')
             .text(d => d.data.name)
             .attr('class', 'label')
-            .attr('font-size', 12)
+            .attr('font-size', 10)
             .attr('text-anchor', 'middle')
             .attr('transform', d => `translate(${xScale(d.x)},${yScale(d.y+25)})`)    
-            
 
         return () => {
             window.removeEventListener('resize', resizeListener)
         }
-    }, [state.tree, state.svgDimensions, data])
+    }, [state.tree, state.svgDimensions, data, state.photo])
     
     return (
         <>

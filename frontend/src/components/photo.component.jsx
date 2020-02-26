@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, { useContext } from 'react'
 import { RootContext } from '../App.js';
 
 const Photo = () => {
@@ -6,7 +6,10 @@ const Photo = () => {
 
     return (
         <>
+        { state.photo.path ? 
             <img alt='main-img' src={state.photo.path}/>
+            : null
+        }
         </>
     )
 }

@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useContext} from 'react'
-import axios from 'axios'
 import { RootContext } from '../App'
 import './tag.styles.css'
 import { useQuery, useMutation} from '@apollo/react-hooks'
