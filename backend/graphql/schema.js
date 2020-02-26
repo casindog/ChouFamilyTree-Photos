@@ -39,7 +39,6 @@ const PhotoType = new GraphQLObjectType({
         persons: {
             type: new GraphQLList(DescendentType),
             resolve(parent, _) {
-                let arr = parent.persons.map(ele => ele.personId)
                 return Descendent.find({ '_id': { $in: parent.persons } })
             } 
         }

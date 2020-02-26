@@ -49,13 +49,14 @@ router.patch('/:photoId', (req, res) => {
                 let set = new Set(), newArr = []
                 photo.persons.forEach(person => set.add(person.personId))
                 req.body.data.forEach(person => {
-                    if (!set.has(person.personId)) {
-                        newArr.push(person)
-                    }
+                    // if (!set.has(person.personId)) {
+                    //     newArr.push(person)
+                    // }
                     set.add(person.personId)
                 })
 
-                photo.persons = photo.persons.concat(newArr)
+                // photo.persons = photo.persons.concat(newArr)
+                photo.persons = Array.from(set)
             } else {
                 // req is to del one
                 let deleteId = req.body.personId

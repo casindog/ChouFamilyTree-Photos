@@ -27,11 +27,10 @@ export const RootContext = createContext()
 const initialState = { 
   file: null,
   photo: {
-    _id: null,
+    id: null,
     path: null,
     persons: []
   },
-  album: [],
   parent: null,
   tree: {
     name: '',

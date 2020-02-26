@@ -2,29 +2,32 @@ import React, {useState, useEffect, useContext} from 'react'
 import axios from 'axios'
 import { RootContext } from '../App'
 import './tag.styles.css'
-import gql from 'graphql-tag'
-
-const editTagToPhoto = gql`
-mutation {
-  editTagsToPhoto(photoId: "5e54db081ac47083042c96db", personId: "5e547b981c9d440000d23957", action: "add") {
-		id persons {
-		  id name
-		}
-  }
-}
-`
+import { useQuery, useMutation} from '@apollo/react-hooks'
+import {getPhoto, getAlbum, getGGFQuery, editPhotoTagsMutation} from '../graphQL/queries'
 
 const Tag = () => {
     const {state, dispatch} = useContext(RootContext)
     const [tag, setTag] = useState('')
     const [tagUpload, setTagUpload] = useState([])
+    const { loading, data } = useQuery(getAlbum)
+    const [editPhotoTags, { error } ] = useMutation(editPhotoTagsMutation)
 
     useEffect(() => {
         let newArr = []
 
-        if (state.svgRef) {
+        if (state.svgRef && state.photo.id) {
             let svg = state.svgRef
-            let arr = state.photo.persons.map(person => person.id)
+
+            // I'd prefer to use the getPhoto gql, but i had issues w/ query variables
+            let main;
+            for (let photo of data.photos) {
+                if (photo.id === state.photo.id) {
+                    main = photo;
+                    break;
+                }
+            }
+
+            let arr = main.persons.map(person => person.id)
 
             //nodes
             svg.selectAll('.node')
@@ -43,14 +46,24 @@ const Tag = () => {
 
         }
 
-        setTagUpload(newArr)
+        setTagUpload(newArr[0])
 
-    },[state.photo, tag])
+    },[tag])
 
     useEffect(() => {
-        if (state.svgRef) {
+        if (state.svgRef && state.photo.id) {
             let svg = state.svgRef
-            let arr = state.photo.persons.map(person => person.id)
+
+            // I'd prefer to use the getPhoto gql, but i had issues w/ query variables
+            let main;
+            for (let photo of data.photos) {
+                if (photo.id === state.photo.id) {
+                    main = photo;
+                    break;
+                }
+            }
+
+            let arr = main.persons.map(person => person.id)
 
             // draw a red line that connects everyone to GGF
             // recursion, if the node is one of the people in the photo, then return true
@@ -100,19 +113,17 @@ const Tag = () => {
             return res
         }
 
-    }, [state.photo.persons])
+    }, [state.photo, data])
 
     const tagPersonToPhoto = e => {
-        if (state.photo.id) {
-            // axios.patch(`./photos/${state.photo._id}`, { data: tagUpload } )
-            //     .then(res => {
-            //         // b/c it's hard to update embedded/nested objects w/ hooks
-            //         // we have intermediate step to copy the photo object,
-            //         // then update the tag information
-            //         let data = state.photo
-            //         data.persons = res.data.tags
-            //         dispatch( {type: 'SET_PHOTO', payload: data} )
-            //     })
+        if (tagUpload) {
+            editPhotoTags({
+                variables: {
+                    photoId: state.photo.id,
+                    personId: tagUpload.id,
+                    action: "add"
+                },
+            })
         }
 
         setTag('')
@@ -120,30 +131,46 @@ const Tag = () => {
     }
 
     const untagPersonFromPhoto = (e) => {
-        // let photoId = state.photo._id
-        // let personId = e.target.attributes.getNamedItem('personId').value
-        // let data = {
-        //     type: 'del',
-        //     personId
-        // }
-
-        // axios.patch(`./photos/${photoId}`, data)
-        //     .then(res => {
-        //         let data = state.photo
-        //         data.persons = res.data.tags
-        //         dispatch({ type: 'SET_PHOTO', payload: data })
-        //     })
+        if (state.photo.id) {
+            editPhotoTags({
+                variables: {
+                    photoId: state.photo.id,
+                    personId: e.target.attributes.getNamedItem('personId').value,
+                    action: "del"
+                },
+            })
+        }
 
     }
+
+    function createTags() {
+        if (state.photo.id) {
+            // I'd prefer to use the getPhoto gql, but i had issues w/ query variables
+            let main;
+            for (let photo of data.photos) {
+                if (photo.id === state.photo.id) {
+                    main = photo;
+                    break;
+                }
+            }
+
+            return main.persons.map(tag => 
+                <div 
+                    personid={tag.id}
+                    key={tag.id} 
+                    onClick={untagPersonFromPhoto} 
+                    className='tag'> {tag.name} 
+                </div> 
+            )
+        }
+    }
+
+    if (loading) return null
 
     return (
         <>
             <div id='tag'>
-                { state.photo.persons.map(tag => <div 
-                    personid={tag.personId}
-                    key={tag.personId} 
-                    onClick={untagPersonFromPhoto} 
-                    className='tag'> {tag.name} </div> )}
+                {createTags()}
 
                 <input type='text' value={tag} onChange={e => setTag(e.target.value)}></input>
                 <button onClick={tagPersonToPhoto}> Add Tag </button>

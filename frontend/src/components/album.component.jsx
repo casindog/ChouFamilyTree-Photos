@@ -7,12 +7,9 @@ const Album = () => {
     const {state, dispatch} = useContext(RootContext) 
     const { loading, data } = useQuery(getAlbum)
 
-
     useEffect(() => {
         // turn this into graphql
         if (!loading && data) {
-            dispatch({type: 'FETCH_ALBUM', payload: data.photos}) 
-
             // force the resize to get the svg to render the correct proportions
             // b/c the album component is loaded after, it changes the svg size, but the change
             // isn't detected by the window resize
@@ -35,30 +32,22 @@ const Album = () => {
         // the store to filter the album w/ photos tagged w/ selected person
     }, [data])
 
-    const createImages = () => {
-        if (state.album) {
-            return (
-                <>
-                    {state.album.map(img => (
-                        <div   key={img.id} >
-                            <img 
-                                alt='album'
-                                onClick={() => {
-                                    dispatch({type: 'SET_PHOTO', payload: img})
-                                }}
-                                src={img.path}>
-                            </img>
-                        </div>
-
-                    ))}
-                </>
-            )
-        }
-    }
+    if (loading) return null
 
     return (
         <div id='album'>
-            {createImages()}
+            {data.photos.map(img => (
+                <div   key={img.id} >
+                    <img 
+                        alt='album'
+                        onClick={() => {
+                            dispatch({type: 'SET_PHOTO', payload: img})
+                        }}
+                        src={img.path}>
+                    </img>
+                </div>
+
+            ))}
         </div>
 
     )

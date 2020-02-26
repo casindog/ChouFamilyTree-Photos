@@ -7,7 +7,7 @@ import {useQuery} from '@apollo/react-hooks'
 
 function Modal() {
     const {state, dispatch} = useContext(RootContext) 
-    const { loading, data, refetch } = useQuery(getGGFQuery)
+    const { refetch } = useQuery(getGGFQuery)
 
     const [name, setName] = useState('')
     const [info, setInfo] = useState('')
