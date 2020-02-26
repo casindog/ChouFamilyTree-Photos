@@ -66,7 +66,7 @@ const Tag = () => {
             }
 
             let arr = main.persons.map(person => person.id)
-            console.log(main)
+            // console.log(main)
 
             // draw a red line that connects everyone to GGF
             // recursion, if the node is one of the people in the photo, then return true
@@ -74,7 +74,7 @@ const Tag = () => {
             // 2) generation gaps, grandchildren can link up to the GGF. the generation in between will still be black (not in photo)
 
             let relationships = dfs(tree.data.descendent, arr) 
-            console.log(relationships)
+            // console.log(relationships)
 
             // return an array with all of target -> source relationship
             // then in D3, check every link's target and source, and change red
@@ -84,8 +84,8 @@ const Tag = () => {
                     hash[r[i]] = r[i-1]
                 }
             }
-            console.log(hash)
-            console.log(tree.data.descendent)
+            // console.log(hash)
+            // console.log(tree.data.descendent)
             const root = hierarchy(tree.data.descendent)
 
             //links
@@ -96,7 +96,7 @@ const Tag = () => {
                     // source goes to value
                     // target goes to key
                     if (hash[d.target.data.id] === d.source.data.id) {
-                        console.log(d.target.data.id, d.source.data.id)
+                        // console.log(d.target.data.id, d.source.data.id)
                         return 'red'
                     }
                 })

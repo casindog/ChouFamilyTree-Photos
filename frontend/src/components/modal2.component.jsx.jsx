@@ -28,10 +28,11 @@ function Modal() {
                     action: 'add'
                 }
                 axios.patch('./descendents', data)
-                    .then(() => {
+                    .then(async () => {
                         // use graphql to query GGF descendent again. 
-                        console.log(this)
-                        refetch()
+                        await refetch()
+                        dispatch({type: 'TOGGLE_MODAL', payload: null})
+
                     })
                     .catch((err) => {
                         return console.log(err)
@@ -51,8 +52,9 @@ function Modal() {
         axios.delete(`./descendents/${state.parent.selectedId}`)
             .then(() => {
                 axios.patch(`./descendents`, data)
-                .then(() => {
-                    refetch()
+                .then(async () => {
+                    await refetch()
+                    dispatch({type: 'TOGGLE_MODAL', payload: null})
                 })
             })
   
