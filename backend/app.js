@@ -8,6 +8,15 @@ const graphqlHTTP = require('express-graphql')
 const schema = require('./graphql/schema')
 const cors = require('cors')
 
+// heroku deployment
+const path = require('path')
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('frontend/build'));
+  app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  })
+}
+
 // allow cross-origin requests
 app.use(cors())
 

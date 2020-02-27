@@ -1,4 +1,4 @@
-/backend/config/keys.js
+/backend/config/keys_dev.js
 
 /node_modules
 /backend/node_modules

@@ -87,6 +87,7 @@ const Tree = () => {
                         selectedName: node.data.name,
                         parentId: node.parent ? node.parent.data.id : null,
                         parentName: node.parent ? node.parent.data.name : null,
+                        children: node.data.children
                     }
                 })
             })

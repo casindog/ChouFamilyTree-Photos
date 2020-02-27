@@ -37,7 +37,6 @@ function Modal() {
                     .catch((err) => {
                         return console.log(err)
                     })
-                
             })   
 
     }
@@ -71,7 +70,10 @@ function Modal() {
             <textarea type='text' value={info} onChange={e => setInfo(e.target.value)} />
             
             <button onClick={handleSubmit}>Add child</button>
-            <button onClick={handleDelete}>Delete {state.parent.selectedName}</button>
+            { !state.parent.children.length ? 
+                <button onClick={handleDelete}>Delete {state.parent.selectedName}</button>
+                : null
+            }
             <button onClick={() => dispatch({type: 'TOGGLE_MODAL', payload: null})}>Close</button>
         </div>
 

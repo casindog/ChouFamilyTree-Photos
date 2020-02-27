@@ -3,7 +3,7 @@ import { RootContext } from '../App'
 import './tag.styles.css'
 import { useQuery, useMutation} from '@apollo/react-hooks'
 import {getAlbum, getGGFQuery, editPhotoTagsMutation} from '../graphQL/queries'
-import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
+import { hierarchy } from 'd3'
 
 
 const Tag = () => {
