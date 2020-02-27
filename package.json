@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node. app.js",
+    "start": "node app.js",
     "frontend": "npm start --prefix frontend",
     "backend": "nodemon app.js",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
