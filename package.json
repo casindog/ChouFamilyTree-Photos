@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "backend": "npm start --prefix backend",
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "frontend": "npm start --prefix frontend",
     "dev": "concurrently \"npm run start\" \"npm run frontend\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
