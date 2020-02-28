@@ -70,7 +70,7 @@ function Modal() {
             <textarea type='text' value={info} onChange={e => setInfo(e.target.value)} />
             
             <button onClick={handleSubmit}>Add child</button>
-            { !state.parent.children.length ? 
+            { !state.parent.children.length && state.parent.id !== "5e5373a07ffd4c292be15f36" ? 
                 <button onClick={handleDelete}>Delete {state.parent.selectedName}</button>
                 : null
             }
