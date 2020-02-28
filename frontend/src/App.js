@@ -14,8 +14,10 @@ import { ApolloProvider } from '@apollo/react-hooks'
 
 // apollo client setup
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/graphql'
+  // uri: 'http://localhost:5000/graphql'
+  uri: 'https://choutree2020.herokuapp.com/graphql'
 })
+
 
 const client = new ApolloClient({
   link: httpLink,

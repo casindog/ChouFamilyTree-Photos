@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const express = require('express')
-const app = express()
-const db = require('./config/keys').mongoURI
+const app = express();
+const db = require('./config/keys').mongoURI;
 const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload')
 const graphqlHTTP = require('express-graphql')
@@ -10,7 +10,16 @@ const cors = require('cors')
 
 // heroku deployment
 const path = require('path')
+
+console.log(db) //mongoURI
+console.log('---')
+console.log("mongodb+srv://dev:EIheXG84cqAP6INj@cluster0-0jesq.mongodb.net/test?retryWrites=true&w=majority")
+console.log(process.env.NODE_ENV)
+
 if (process.env.NODE_ENV === 'production') {
+  console.log('should be in heroku server')
+  console.log(db) // is undefined
+
   app.use(express.static('frontend/build'));
   app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
