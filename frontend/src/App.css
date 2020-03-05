@@ -82,35 +82,44 @@
 
 #main #album {
   grid-area: album;
-  display: flex;
-  overflow: hidden;
-  margin: 0;
+  display: grid;
+  grid-template-columns: 50px auto 50px;
+  grid-auto-flow: column;
+  grid-template-areas: 
+  "slider-left album-images slider-right";
+
+  width: 100%;
+  height: 100%;
+  justify-content: center;
   align-content: center;
-  width: 100%
 }
 
 #slider-left {
-  position: absolute;
-  object-fit: none;
-  object-position: 0 0;
-  left: -6%;
-  width: 256px;
-  height: 512px;
+  grid-area: slider-left;
+  /* object-fit: none; */
+  /* object-position: 0 0; */
+  width: 50px;
+  /* height: 512px; */
+  /* transform: scale(0.1); */
   cursor: pointer;
-  transform: scale(0.1);
-  bottom: -22%;
+  align-self: center;
+}
+
+#album-images {
+  grid-area: album-images;
+  display: flex;
+  overflow: hidden;
 }
 
 #slider-right {
-  position: absolute;
-  object-fit: none;
-  right: -7%;
-  width: 256px;
-  height: 512px;
+  grid-area: slider-right;
+  /* object-fit: none; */
+  /* object-position: 0 0; */
+  width: 50px;
+  /* height: 512px; */
+  /* transform: scale(0.1); */
   cursor: pointer;
-  bottom: -22%;
-  object-position: -256px;
-  transform: scale(0.1);
+  align-self: center;
 }
 
 .slider-img {

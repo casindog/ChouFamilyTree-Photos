@@ -43,22 +43,24 @@ const Album = () => {
     return (
 
         <div id='album'>
+
+            <img id='slider-left' onClick={() => setX(x+100)} src="leftright.png" alt=""/> 
+
+            
+            <div id='album-images'>
+                {data.photos.map(img => (
+                    <div key={img.id} style={styles}>
+                        <img className='slider-img'
+                            alt='album'
+                            onClick={() => {
+                                dispatch({type: 'SET_PHOTO', payload: img})
+                            }}
+                            src={img.path}>
+                        </img>
+                    </div>
+                ))}
+            </div>
             <img id='slider-right' onClick={() => setX(x-100)} src="leftright.png" alt=""/>    
-
-            {data.photos.map(img => (
-                <div key={img.id} style={styles}>
-                    <img className='slider-img'
-                        alt='album'
-                        onClick={() => {
-                            dispatch({type: 'SET_PHOTO', payload: img})
-                        }}
-                        src={img.path}>
-                    </img>
-                </div>
-            ))}
-
-            <img id='slider-left' onClick={() => setX(x+100)} src="leftright.png" alt=""/>    
-
 
         </div>
 
