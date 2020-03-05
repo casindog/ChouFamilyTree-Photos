@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { RootContext } from '../App.js';
 import {useQuery} from '@apollo/react-hooks'
 import {getAlbum} from '../graphQL/queries'
@@ -6,6 +6,11 @@ import {getAlbum} from '../graphQL/queries'
 const Album = () => {
     const {state, dispatch} = useContext(RootContext) 
     const { loading, data } = useQuery(getAlbum)
+    const [x, setX] = useState(0)
+
+    const styles = {
+        transform: `translate(${x}px)`
+    }
 
 
     useEffect(() => {
@@ -36,10 +41,13 @@ const Album = () => {
     if (loading) return null
 
     return (
+
         <div id='album'>
+            <img id='slider-right' onClick={() => setX(x-100)} src="leftright.png" alt=""/>    
+
             {data.photos.map(img => (
-                <div   key={img.id} >
-                    <img 
+                <div key={img.id} style={styles}>
+                    <img className='slider-img'
                         alt='album'
                         onClick={() => {
                             dispatch({type: 'SET_PHOTO', payload: img})
@@ -47,9 +55,13 @@ const Album = () => {
                         src={img.path}>
                     </img>
                 </div>
-
             ))}
+
+            <img id='slider-left' onClick={() => setX(x+100)} src="leftright.png" alt=""/>    
+
+
         </div>
+
 
     )
 }
