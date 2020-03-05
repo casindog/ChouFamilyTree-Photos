@@ -21,86 +21,79 @@ const Tree = () => {
 
     useEffect(() => {
         if (!loading && data) {
-            // if (!state.photo.id) {
-            //     let temp = {
-            //         persons: [{id: "5e5373a07ffd4c292be15f36", name: "GGF"}],
-            //         id: "5e54db081ac47083042c96db",
-            //         path: "/uploads/GGF-1582619400013.JPG"
-            //     }
-            //     dispatch({type: 'SET_PHOTO', payload: temp})
-            // }
 
-        // D3 code
-        const svg = select(svgRef.current)
+            // D3 code
+            const svg = select(svgRef.current)
 
-        window.addEventListener('resize', resizeListener)
+            window.addEventListener('resize', resizeListener)
 
-        let {width, height} = state.svgDimensions
+            let {width, height} = state.svgDimensions
 
-        let xScale = scaleLinear()
-            .domain([0,width])
-            .range([0.05*width,0.95*width])
+            let xScale = scaleLinear()
+                .domain([0,width])
+                .range([0.05*width,0.95*width])
 
-        let yScale = scaleLinear()
-            .domain([0,height])
-            .range([0.05*height,0.9*height])
+            let yScale = scaleLinear()
+                .domain([0,height])
+                .range([0.05*height,0.9*height])
 
+                
+            dispatch({type: 'SET_SVGREF', payload: svg})
+
+            const root = hierarchy(data.descendent)
+            const treeLayout = tree().size([width, height])
+            treeLayout(root)
             
-        dispatch({type: 'SET_SVGREF', payload: svg})
+            // console.log(root)
+            // console.log(root.descendants())
+            // console.log(root.links())
 
-        const root = hierarchy(data.descendent)
-        const treeLayout = tree().size([width, height])
-        treeLayout(root)
-        
-        // console.log(root)
-        // console.log(root.descendants())
-        // console.log(root.links())
+            const linkGenerator = linkVertical()
+                .x(node => xScale(node.x))
+                .y(node => yScale(node.y))
 
-        const linkGenerator = linkVertical()
-            .x(node => xScale(node.x))
-            .y(node => yScale(node.y))
+            //links
+            svg.selectAll('.link')
+                .data(root.links())
+                .join('path')
+                .attr('class', 'link')
+                .attr('d', linkGenerator)
+                .attr('fill','none')
+                .attr('stroke', 'black')
 
-        //links
-        svg.selectAll('.link')
-            .data(root.links())
-            .join('path')
-            .attr('class', 'link')
-            .attr('d', linkGenerator)
-            .attr('fill','none')
-            .attr('stroke', 'black')
-
-        //nodes
-        svg.selectAll('.node')
-            .data(root.descendants())
-            .join('circle') 
-            .attr('class', 'node')
-            .attr('r', 6)
-            .attr('fill', 'black')
-            .attr('stroke-width',1)
-            .attr('stroke', 'black')
-            .attr('transform', d => `translate(${xScale(d.x)}, ${yScale(d.y)})`)
-            .on('click', (node, idx) => {
-                dispatch({
-                    type: 'TOGGLE_MODAL', 
-                    payload: {
-                        selectedId: node.data.id,
-                        selectedName: node.data.name,
-                        parentId: node.parent ? node.parent.data.id : null,
-                        parentName: node.parent ? node.parent.data.name : null,
-                        children: node.data.children
-                    }
+            //nodes
+            svg.selectAll('.node')
+                .data(root.descendants())
+                .join('circle') 
+                .attr('class', 'node')
+                .attr('r', 5)
+                .attr('fill', 'black')
+                .attr('stroke-width',1)
+                .attr('stroke', 'black')
+                .attr('transform', d => `translate(${xScale(d.x)}, ${yScale(d.y)})`)
+                .on('click', (node, idx) => {
+                    dispatch({
+                        type: 'TOGGLE_MODAL', 
+                        payload: {
+                            selectedId: node.data.id,
+                            selectedName: node.data.name,
+                            parentId: node.parent ? node.parent.data.id : null,
+                            parentName: node.parent ? node.parent.data.name : null,
+                            children: node.data.children
+                        }
+                    })
                 })
-            })
-  
-        //labels
-        svg.selectAll('.label')
-            .data(root.descendants())
-            .join('text')
-            .text(d => d.data.name)
-            .attr('class', 'label')
-            .attr('font-size', 10)
-            .attr('text-anchor', 'middle')
-            .attr('transform', d => `translate(${xScale(d.x)},${yScale(d.y+25)})`)    
+    
+            //labels
+            svg.selectAll('.label')
+                .data(root.descendants())
+                .join('text')
+                .text(d => d.data.name)
+                .attr('class', 'label')
+                .attr('font-size', 8)
+                .attr('text-anchor', 'middle')
+                .attr('transform', d => `translate(${xScale(d.x)},${yScale(d.y+25)})`) 
+
         }
 
         return () => {
