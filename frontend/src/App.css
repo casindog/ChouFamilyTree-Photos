@@ -96,11 +96,9 @@
 
 #slider-left {
   grid-area: slider-left;
-  /* object-fit: none; */
-  /* object-position: 0 0; */
+  object-fit: contain;
+  object-position: 25px 0;
   width: 50px;
-  /* height: 512px; */
-  /* transform: scale(0.1); */
   cursor: pointer;
   align-self: center;
 }
@@ -113,11 +111,9 @@
 
 #slider-right {
   grid-area: slider-right;
-  /* object-fit: none; */
-  /* object-position: 0 0; */
+  object-fit: contain;
+  object-position: -25px 0;
   width: 50px;
-  /* height: 512px; */
-  /* transform: scale(0.1); */
   cursor: pointer;
   align-self: center;
 }
