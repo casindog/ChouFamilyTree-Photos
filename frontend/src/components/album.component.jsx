@@ -13,8 +13,6 @@ const Album = () => {
         transition: 'all 1s'
     }
 
-    console.log(x)
-
     useEffect(() => {
         // turn this into graphql
         if (!loading && data) {
