@@ -13,6 +13,7 @@ const Album = () => {
         transition: 'all 1s'
     }
 
+    console.log(x)
 
     useEffect(() => {
         // turn this into graphql
@@ -45,7 +46,7 @@ const Album = () => {
 
         <div id='album'>
 
-            <img id='slider-left' onClick={() => setX(x+100)} src="leftright.png" alt=""/> 
+            <img id='slider-left' onClick={() => setX(Math.min(0,x+100))} src="leftright.png" alt=""/> 
 
             
             <div id='album-images'>
