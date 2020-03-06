@@ -9,7 +9,8 @@ const Album = () => {
     const [x, setX] = useState(0)
 
     const styles = {
-        transform: `translate(${x}px)`
+        transform: `translate(${x}px)`,
+        transition: 'all 1s'
     }
 
 
