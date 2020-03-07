@@ -44,8 +44,14 @@ const Tree = () => {
             const treeLayout = tree().size([width, height])
             treeLayout(root)
             
-            // console.log(root)
-            // console.log(root.descendants())
+            // const spouses = [] 
+            // root.descendants().forEach(ele => {
+            //     if (ele.data.spouse.length) spouses.push(ele.data.spouse)
+            // })
+            // console.log(spouses)
+
+            //spouses 
+    
             // console.log(root.links())
 
             const linkGenerator = linkVertical()
