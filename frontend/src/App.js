@@ -40,8 +40,6 @@ const initialState = {
 
 const reducer = (state,action) => {
   switch (action.type) {
-      case 'FETCH_ALBUM':
-        return { ...state, album: action.payload };
       case 'SET_FILE':
         return { ...state, file: action.payload };
       case 'SET_PHOTO':

@@ -63,17 +63,4 @@ const getAlbum = gql`
 }
 `
 
-
-
-const editPhotoTagsMutation = gql`
-mutation($photoId: ID!, $personId: ID!, $action: String!) {
-    editTagsToPhoto(photoId: $photoId, personId: $personId, action: $action) {
-        id path 
-        persons {
-            id name
-        }
-    }
-}
-`
-
-export {getGGFQuery, getPhoto, getAlbum, editPhotoTagsMutation}
+export {getGGFQuery, getPhoto, getAlbum}

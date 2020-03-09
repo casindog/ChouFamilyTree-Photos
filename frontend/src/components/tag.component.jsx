@@ -2,7 +2,9 @@ import React, {useState, useEffect, useContext} from 'react'
 import { RootContext } from '../App'
 import './tag.styles.css'
 import { useQuery, useMutation} from '@apollo/react-hooks'
-import {getAlbum, getGGFQuery, editPhotoTagsMutation} from '../graphQL/queries'
+import {getAlbum, getGGFQuery} from '../graphQL/queries'
+import {editPhotoTagsMutation} from '../graphQL/mutations'
+
 import { hierarchy } from 'd3'
 
 

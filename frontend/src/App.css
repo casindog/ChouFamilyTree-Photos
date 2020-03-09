@@ -57,27 +57,48 @@
   height: 100%;
 }
 
-#main #modal2 {
+#modal2 {
   grid-area: edit-tree;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));
-  grid-gap: 5px;
+  /* grid-gap: 0px 5px; */
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-flow: column;
+  grid-template-areas: 
+  "child-info child-input child-submit delete close"
+  "parent-info parent-input parent-submit delete close";
   justify-content: center;
   align-content: center;
   justify-items: center;
   align-items: center;
+  font-size: x-small;
   background-color: azure;
   width: 100%;
 }
 
-#modal2 * {
-  display: flex;
-  font-size: x-small;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 100%;
-  height: 100%;
+#child-info {
+  grid-area: child-info
+}
+#child-input {
+  grid-area: child-input
+}
+#child-submit {
+  grid-area: child-submit
+}
+#parent-info {
+  grid-area: parent-info
+}
+#parent-input {
+  grid-area: parent-input
+}
+#parent-submit {
+  grid-area: parent-submit  
+}
+#modal2 #deleteSelf {
+  grid-area: delete
+}
+#modal2 #close {
+  grid-area: close;
 }
 
 #main #album {
@@ -133,9 +154,4 @@
 
 .node {
   cursor: pointer
-}
-
-#modal-root {
-  display: flex;
-  justify-content: center;
 }

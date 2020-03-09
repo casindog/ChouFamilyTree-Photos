@@ -103,10 +103,10 @@ const Mutation = new GraphQLObjectType({
                 info: {type: GraphQLString},
             },
             resolve(_, args) {
-                Descendent.findById(args.id, (err, descendent) => {
+                return Descendent.findByIdAndUpdate(args.id,args, (err, descendent) => {
                     descendent.name = args.name || descendent.name
                     descendent.info = args.info || descendent.info
-                    return descendent.save()
+                    descendent.save()
                 })
             }
         },
