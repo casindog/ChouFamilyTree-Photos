@@ -30,7 +30,7 @@ const File = () => {
     }   
 
     return (
-        <div id="title-left">
+        <div id="title-right">
             <div> Upload a Photo </div>
             <input type='file' onChange={handleFile}></input>
             <button onClick={uploadFile}>Upload</button>

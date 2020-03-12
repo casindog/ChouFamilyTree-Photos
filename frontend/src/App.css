@@ -12,8 +12,8 @@
   grid-template-rows: 1fr 10fr 1fr 2fr;
   grid-template-areas: 
     "header-left header-right"
-    "photo  tree"
-    "tag    edit-tree"
+    "tree  photo"
+    "edit-tree tag"
     "album  album";
   grid-gap: 20px;
   align-content: center;
@@ -21,12 +21,13 @@
   align-items: center;
   justify-items: center;
   width: 90%;
-  height: 100vh;
+  height: 90vh;
+
 }
 
-#main #title-left {
+#title-left {
   grid-area: header-left;
-  font-size: 20px; 
+  font-size: 18px; 
   height: 100%;
   display: flex;
   justify-content: center;
@@ -34,9 +35,16 @@
   flex-direction: column;
 }
 
-#main #title-right {
+#title-right {
   grid-area: header-right;
-  font-size: 20px; 
+  /* font-size: 18px;  */
+  font-size: small;
+
+  display: grid;
+  /* grid-template-columns: 1fr 1fr 1fr; */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 #main > img {
@@ -46,8 +54,11 @@
   object-fit: scale-down;
 }
 
-#main #tag {
+#tag {
+  width: 100%;
   grid-area: tag;
+  width: 90%;
+
 }
 
 #main svg {
@@ -73,7 +84,7 @@
   align-items: center;
   font-size: x-small;
   background-color: azure;
-  width: 100%;
+  width: 90%;
 }
 
 #child-info {

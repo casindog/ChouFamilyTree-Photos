@@ -31,6 +31,12 @@ const Album = () => {
                 }
                 
                 dispatch({type: 'SET_SVGDIMENSIONS', payload: dimensions})
+
+                if (!state.photo.id) {
+                    let d = data.photos[0]
+                    dispatch({type: 'SET_PHOTO', payload: d})
+                }
+
             },0)
         }
 
