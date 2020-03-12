@@ -3,12 +3,14 @@ import { RootContext } from '../App'
 import { select, hierarchy, tree, linkVertical, scaleLinear } from 'd3'
 import Modal from "./modal2.component.jsx"
 import {useQuery} from '@apollo/react-hooks'
-import {getGGFQuery} from '../graphQL/queries'
+import {getGGFQuery, getAlbum} from '../graphQL/queries'
 
 const Tree = () => {
     const svgRef = useRef()
     const {state, dispatch} = useContext(RootContext)
     const { loading, data } = useQuery(getGGFQuery)
+    const dataAlbum = useQuery(getAlbum).data
+
 
     const resizeListener = () => {
         let svg = document.getElementsByTagName('svg')[0]
@@ -21,6 +23,11 @@ const Tree = () => {
 
     useEffect(() => {
         if (!loading && data) {
+            
+            if (!state.photo.id) {
+                let d = dataAlbum.photos[0]
+                dispatch({type: 'SET_PHOTO', payload: d})
+            }
 
             // D3 code
             const svg = select(svgRef.current)
