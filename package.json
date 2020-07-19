@@ -27,7 +27,7 @@
     "nodemon": "^2.0.2"
   },
   "devDependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mongodb": "^3.5.2",
     "nodemon": "^2.0.2"
   }
